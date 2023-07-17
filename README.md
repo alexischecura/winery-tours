@@ -40,8 +40,7 @@ Welcome to the Wine Cellar Tours app repository! This application is designed to
 
 [⌛] - As a lead guide, I want to create and manage guides and other lead guides.
 
-
 ## Technologies Used
 
-- Frontend: React, TypeScript, React Query, React Router, SASS with CSS Modules.
+- Frontend: React, TypeScript, React Query, React Router, Styled Components.
 - Backend: Node.js, Express, Zod, Prisma, PostgreSQL, Redis.

@@ -7,6 +7,7 @@ services:
   postgres:
     image: postgres:${POSTGRES_VERSION}
     restart: always
+    container_name: wine cellar-tours
     ports:
       - ${POSTGRES_PORT}:5432
     volumes:
