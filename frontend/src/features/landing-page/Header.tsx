@@ -33,9 +33,11 @@ function Header() {
           </li>
         </ul>
       </nav>
-      <ul>
+      <ul className={styles.CtaBtnList}>
         <li>
           <a>Login</a>
+        </li>
+        <li>
           <a>Sign up</a>
         </li>
       </ul>
