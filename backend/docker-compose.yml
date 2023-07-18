@@ -7,7 +7,7 @@ services:
   postgres:
     image: postgres:${POSTGRES_VERSION}
     restart: always
-    container_name: winery-tours
+    container_name: winery-tours-postgresql
     ports:
       - ${POSTGRES_PORT}:5432
     volumes:
@@ -19,6 +19,7 @@ services:
 
   redis:
     image: redis:${REDIS_VERSION}
+    container_name: winery-tours-redis
     restart: always
     ports:
       - ${REDIS_PORT}:6379

@@ -21,6 +21,10 @@ model User {
   verificationCode String?  @db.Text
   active           Boolean  @default(true)
 
+  tourId  String?
+  tour    Tour?    @relation(fields: [tourId], references: [id])
+  reviews Review[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -34,4 +38,65 @@ enum UserRole {
   GUIDE
   LEAD_GUIDE
   ADMIN
+}
+
+model Tour {
+  id              String     @id @default(cuid())
+  name            String     @db.VarChar(255)
+  duration        Int
+  maxGroupSize    Int
+  ratingsAverage  Float      @default(4.5)
+  ratingsQuantity Int        @default(0)
+  price           Int
+  priceDiscount   Int?
+  summary         String
+  description     String?
+  imageCover      String
+  images          String[]
+  startDates      DateTime[]
+  secretTour      Boolean    @default(false)
+
+  startLocation StartLocation?
+  locations     Location[]
+  guides        User[]
+  reviews       Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StartLocation {
+  id          String  @id @default(cuid())
+  type        String
+  coordinates Float[]
+  address     String
+  description String
+
+  tourId String @unique
+  tour   Tour   @relation(fields: [tourId], references: [id])
+}
+
+model Location {
+  id          String  @id @default(cuid())
+  type        String
+  coordinates Float[]
+  address     String
+  description String
+  day         Int
+
+  tourId String
+  tour   Tour   @relation(fields: [tourId], references: [id])
+}
+
+model Review {
+  id      String @id @default(cuid())
+  rating  Float
+  comment String
+
+  tourId String
+  tour   Tour   @relation(fields: [tourId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
 }
