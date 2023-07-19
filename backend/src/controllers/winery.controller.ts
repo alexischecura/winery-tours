@@ -21,7 +21,7 @@ export const createWineryHandle = async (
     };
     const winery = await createWinery(newWinery);
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       winery,
     });

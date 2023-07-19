@@ -8,13 +8,13 @@ export const createTour = async (input: Prisma.TourCreateInput) => {
   })) as Tour;
 };
 
-export const getTours = async (select?: Prisma.TourSelect) => {
+export const getAllTours = async (select?: Prisma.TourSelect) => {
   return (await prisma.tour.findMany({
     select,
   })) as Tour[];
 };
 
-export const findUniqueTour = async (
+export const getTour = async (
   where: Prisma.TourWhereUniqueInput,
   select?: Prisma.TourSelect
 ) => {

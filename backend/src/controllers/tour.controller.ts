@@ -16,13 +16,18 @@ export const createTourHandler = async (
       summary: req.body.summary,
       description: req.body.description,
       imageCover: req.body.imageCover,
-      images: req.body.images,
       startDates: req.body.startDates,
-      secretTour: req.body.secretTour,
     };
 
-    // const tour = await createTour({ })
+    console.log(newTour);
+
+    const tour = await createTour(newTour);
+
+    res.status(201).json({
+      status: 'success',
+      tour,
+    });
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };
