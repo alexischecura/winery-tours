@@ -8,8 +8,12 @@ export const createWinery = async (input: Prisma.WineryCreateInput) => {
   })) as Winery;
 };
 
-export const getWineries = async (select?: Prisma.WinerySelect) => {
+export const getAllWineries = async (select?: Prisma.WinerySelect) => {
   return (await prisma.winery.findMany({
     select,
   })) as Winery[];
+};
+
+export const getWinery = async (where: Prisma.WineryWhereUniqueInput) => {
+  return (await prisma.winery.findUnique({ where })) as Winery;
 };
