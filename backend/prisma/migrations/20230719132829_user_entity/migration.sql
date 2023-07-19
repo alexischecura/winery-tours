@@ -12,7 +12,6 @@ CREATE TABLE "users" (
     "verified" BOOLEAN DEFAULT false,
     "verificationCode" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
-    "tourId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -20,7 +19,20 @@ CREATE TABLE "users" (
 );
 
 -- CreateTable
-CREATE TABLE "Tour" (
+CREATE TABLE "wineries" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "description" TEXT NOT NULL,
+    "imageCover" TEXT NOT NULL,
+    "images" TEXT[],
+    "address" TEXT NOT NULL,
+    "coordinates" DOUBLE PRECISION[],
+
+    CONSTRAINT "wineries_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "tours" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "duration" INTEGER NOT NULL,
@@ -31,43 +43,28 @@ CREATE TABLE "Tour" (
     "priceDiscount" INTEGER,
     "summary" TEXT NOT NULL,
     "description" TEXT,
+    "location" TEXT,
     "imageCover" TEXT NOT NULL,
-    "images" TEXT[],
     "startDates" TIMESTAMP(3)[],
-    "secretTour" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Tour_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "tours_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "StartLocation" (
+CREATE TABLE "tour_events" (
     "id" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
-    "coordinates" DOUBLE PRECISION[],
-    "address" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "tourId" TEXT NOT NULL,
-
-    CONSTRAINT "StartLocation_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Location" (
-    "id" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
-    "coordinates" DOUBLE PRECISION[],
-    "address" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
     "day" INTEGER NOT NULL,
+    "specialEvent" BOOLEAN NOT NULL DEFAULT false,
     "tourId" TEXT NOT NULL,
+    "wineryId" TEXT NOT NULL,
 
-    CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "tour_events_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Review" (
+CREATE TABLE "reviews" (
     "id" TEXT NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL,
     "comment" TEXT NOT NULL,
@@ -75,7 +72,13 @@ CREATE TABLE "Review" (
     "userId" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "reviews_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_TourToUser" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateIndex
@@ -85,19 +88,25 @@ CREATE INDEX "users_email_verificationCode_idx" ON "users"("email", "verificatio
 CREATE UNIQUE INDEX "users_email_verificationCode_key" ON "users"("email", "verificationCode");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "StartLocation_tourId_key" ON "StartLocation"("tourId");
+CREATE UNIQUE INDEX "_TourToUser_AB_unique" ON "_TourToUser"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_TourToUser_B_index" ON "_TourToUser"("B");
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_tourId_fkey" FOREIGN KEY ("tourId") REFERENCES "Tour"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "tour_events" ADD CONSTRAINT "tour_events_tourId_fkey" FOREIGN KEY ("tourId") REFERENCES "tours"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "StartLocation" ADD CONSTRAINT "StartLocation_tourId_fkey" FOREIGN KEY ("tourId") REFERENCES "Tour"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "tour_events" ADD CONSTRAINT "tour_events_wineryId_fkey" FOREIGN KEY ("wineryId") REFERENCES "wineries"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Location" ADD CONSTRAINT "Location_tourId_fkey" FOREIGN KEY ("tourId") REFERENCES "Tour"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "reviews" ADD CONSTRAINT "reviews_tourId_fkey" FOREIGN KEY ("tourId") REFERENCES "tours"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_tourId_fkey" FOREIGN KEY ("tourId") REFERENCES "Tour"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "reviews" ADD CONSTRAINT "reviews_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "_TourToUser" ADD CONSTRAINT "_TourToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "tours"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_TourToUser" ADD CONSTRAINT "_TourToUser_B_fkey" FOREIGN KEY ("B") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

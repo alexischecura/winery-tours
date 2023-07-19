@@ -1,12 +1,9 @@
-import express, { Response } from 'express';
+import express from 'express';
+import wineriesRouter from './routes/wineries.routes';
 
 const app = express();
+app.use(express.json({ limit: '10kb' }));
 
-app.get('/test', async (_, res: Response) => {
-  res.status(200).json({
-    status: 'success',
-    message: 'Server running',
-  });
-});
+app.use('/api/v1/wineries', wineriesRouter);
 
 export default app;
