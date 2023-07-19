@@ -25,8 +25,8 @@ export const createWineryHandler = async (
       status: 'success',
       winery,
     });
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -42,8 +42,8 @@ export const getAllWineriesHandler = async (
       status: 'success',
       wineries,
     });
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -52,10 +52,22 @@ export const getWineryHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  const winery = await getWinery({ id: req.params.id });
+  try {
+    const winery = await getWinery({ id: req.params.id });
 
-  res.status(200).json({
-    status: 'success',
-    winery,
-  });
+    if (!winery) {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Winery not found',
+      });
+      next();
+    }
+
+    res.status(200).json({
+      status: 'success',
+      winery,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

@@ -61,7 +61,7 @@ model Tour {
   ratingsAverage  Float      @default(4.5)
   ratingsQuantity Int        @default(0)
   price           Int
-  priceDiscount   Int?
+  priceDiscount   Int        @default(0)
   summary         String
   description     String?
   location        String?

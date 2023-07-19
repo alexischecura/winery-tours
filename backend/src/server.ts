@@ -1,8 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-
 require('dotenv').config();
 import { env } from './configs/env.config';
-
 import { connectRedisDB } from './databases/redis.db';
 import app from './app';
 
@@ -18,8 +16,8 @@ async function startServer() {
 }
 
 startServer()
-  .catch((err) => {
-    throw err;
+  .catch((error) => {
+    throw error;
   })
   .finally(async () => {
     await prisma.$disconnect();

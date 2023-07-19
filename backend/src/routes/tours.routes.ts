@@ -7,8 +7,9 @@ import {
 
 const router = Router();
 
-router.post('/', createTourHandler);
-router.get('/', getAllToursHandler);
-router.get('/:id', getTourHandler);
+router
+  .post('/', createTourHandler)
+  .get('/', getAllToursHandler)
+  .get('/:id', getTourHandler);
 
 export default router;

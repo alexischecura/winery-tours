@@ -26,7 +26,7 @@ export const createTourHandler = async (
       tour,
     });
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
@@ -43,7 +43,7 @@ export const getAllToursHandler = async (
       data: tours,
     });
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
@@ -52,10 +52,22 @@ export const getTourHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  const tour = await getTour({ id: req.params.id });
+  try {
+    const tour = await getTour({ id: req.params.id });
 
-  res.status(200).json({
-    status: 'success',
-    data: tour,
-  });
+    if (!tour) {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Tour not found',
+      });
+      next();
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: tour,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

@@ -9,9 +9,9 @@ export const connectRedisDB = async () => {
   try {
     await redisClient.connect();
     console.log('Redis DB connection successful');
-    redisClient.set('connectMessage', 'Redis DB connection successful');
   } catch (error) {
-    console.error(error);
-    setTimeout(connectRedisDB, 2000);
+    console.error(`Error in the connection to Redis DB: ${error}`);
+    console.log('Trying again in 3 seconds');
+    setTimeout(connectRedisDB, 3000);
   }
 };
