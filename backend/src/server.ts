@@ -1,4 +1,4 @@
-// import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 require('dotenv').config();
 import { env } from './configs/env.config';
@@ -8,7 +8,7 @@ import app from './app';
 
 connectRedisDB();
 
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 async function startServer() {
   const port = env.PORT || 3000;
@@ -22,5 +22,5 @@ startServer()
     throw err;
   })
   .finally(async () => {
-    // await prisma.$disconnect();
+    await prisma.$disconnect();
   });

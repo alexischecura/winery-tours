@@ -21,8 +21,7 @@ model User {
   verificationCode String?  @db.Text
   active           Boolean  @default(true)
 
-  tourId  String?
-  tour    Tour?    @relation(fields: [tourId], references: [id])
+  tours   Tour[]
   reviews Review[]
 
   createdAt DateTime @default(now())
@@ -40,6 +39,20 @@ enum UserRole {
   ADMIN
 }
 
+model Winery {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(255)
+  description String
+  imageCover  String
+  images      String[]
+  address     String
+  coordinates Float[]
+
+  tours TourEvent[]
+
+  @@map("wineries")
+}
+
 model Tour {
   id              String     @id @default(cuid())
   name            String     @db.VarChar(255)
@@ -51,41 +64,30 @@ model Tour {
   priceDiscount   Int?
   summary         String
   description     String?
+  location        String?
   imageCover      String
-  images          String[]
   startDates      DateTime[]
-  secretTour      Boolean    @default(false)
 
-  startLocation StartLocation?
-  locations     Location[]
-  guides        User[]
-  reviews       Review[]
+  guides   User[]
+  reviews  Review[]
+  wineries TourEvent[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("tours")
 }
 
-model StartLocation {
-  id          String  @id @default(cuid())
-  type        String
-  coordinates Float[]
-  address     String
-  description String
+model TourEvent {
+  id           String  @id @default(cuid())
+  day          Int
+  specialEvent Boolean @default(false)
+  Tour         Tour    @relation(fields: [tourId], references: [id])
+  tourId       String
+  winery       Winery  @relation(fields: [wineryId], references: [id])
+  wineryId     String
 
-  tourId String @unique
-  tour   Tour   @relation(fields: [tourId], references: [id])
-}
-
-model Location {
-  id          String  @id @default(cuid())
-  type        String
-  coordinates Float[]
-  address     String
-  description String
-  day         Int
-
-  tourId String
-  tour   Tour   @relation(fields: [tourId], references: [id])
+  @@map("tour_events")
 }
 
 model Review {
@@ -99,4 +101,6 @@ model Review {
   user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("reviews")
 }
