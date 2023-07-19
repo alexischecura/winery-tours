@@ -14,12 +14,13 @@ export const getAllTours = async (select?: Prisma.TourSelect) => {
   })) as Tour[];
 };
 
-export const getTour = async (where: Prisma.TourWhereUniqueInput) => {
+export const getTour = async (
+  where: Prisma.TourWhereUniqueInput,
+  include?: Prisma.TourInclude
+) => {
   return (await prisma.tour.findUnique({
     where,
-    include: {
-      wineries: true,
-    },
+    include,
   })) as Tour;
 };
 
