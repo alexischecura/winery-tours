@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, Tour } from '@prisma/client';
+import { Prisma, PrismaClient, Tour, TourEvent } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -14,12 +14,17 @@ export const getAllTours = async (select?: Prisma.TourSelect) => {
   })) as Tour[];
 };
 
-export const getTour = async (
-  where: Prisma.TourWhereUniqueInput,
-  select?: Prisma.TourSelect
-) => {
+export const getTour = async (where: Prisma.TourWhereUniqueInput) => {
   return (await prisma.tour.findUnique({
     where,
-    select,
+    include: {
+      wineries: true,
+    },
   })) as Tour;
+};
+
+export const createTourEvent = async (input: Prisma.TourEventCreateInput) => {
+  return (await prisma.tourEvent.create({
+    data: input,
+  })) as TourEvent;
 };

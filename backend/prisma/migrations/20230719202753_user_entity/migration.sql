@@ -40,7 +40,7 @@ CREATE TABLE "tours" (
     "ratingsAverage" DOUBLE PRECISION NOT NULL DEFAULT 4.5,
     "ratingsQuantity" INTEGER NOT NULL DEFAULT 0,
     "price" INTEGER NOT NULL,
-    "priceDiscount" INTEGER,
+    "priceDiscount" INTEGER NOT NULL DEFAULT 0,
     "summary" TEXT NOT NULL,
     "description" TEXT,
     "location" TEXT,

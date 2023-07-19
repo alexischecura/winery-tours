@@ -82,7 +82,7 @@ model TourEvent {
   id           String  @id @default(cuid())
   day          Int
   specialEvent Boolean @default(false)
-  Tour         Tour    @relation(fields: [tourId], references: [id])
+  tour         Tour    @relation(fields: [tourId], references: [id])
   tourId       String
   winery       Winery  @relation(fields: [wineryId], references: [id])
   wineryId     String

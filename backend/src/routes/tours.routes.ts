@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  createTourEventHandler,
   createTourHandler,
   getAllToursHandler,
   getTourHandler,
@@ -10,6 +11,7 @@ const router = Router();
 router
   .post('/', createTourHandler)
   .get('/', getAllToursHandler)
-  .get('/:id', getTourHandler);
+  .get('/:id', getTourHandler)
+  .post('/:id/winery', createTourEventHandler);
 
 export default router;
