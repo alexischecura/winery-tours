@@ -5,7 +5,7 @@ import {
   getWinery,
 } from '../services/winery.service';
 
-export const createWineryHandle = async (
+export const createWineryHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -30,7 +30,7 @@ export const createWineryHandle = async (
   }
 };
 
-export const getAllWineriesHandle = async (
+export const getAllWineriesHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -47,7 +47,7 @@ export const getAllWineriesHandle = async (
   }
 };
 
-export const getWineryHandle = async (
+export const getWineryHandler = async (
   req: Request,
   res: Response,
   next: NextFunction

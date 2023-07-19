@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import {
-  createWineryHandle,
-  getAllWineriesHandle,
-  getWineryHandle,
+  createWineryHandler,
+  getAllWineriesHandler,
+  getWineryHandler,
 } from '../controllers/winery.controller';
 
 const router = Router();
 
-router.post('/', createWineryHandle);
-router.get('/', getAllWineriesHandle);
-router.get('/:id', getWineryHandle);
+router.post('/', createWineryHandler);
+router.get('/', getAllWineriesHandler);
+router.get('/:id', getWineryHandler);
 
 export default router;

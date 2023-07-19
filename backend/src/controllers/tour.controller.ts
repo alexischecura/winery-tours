@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { createTour } from '../services/tour.service';
+import { createTour, getAllTours, getTour } from '../services/tour.service';
 
 export const createTourHandler = async (
   req: Request,
@@ -19,15 +19,43 @@ export const createTourHandler = async (
       startDates: req.body.startDates,
     };
 
-    console.log(newTour);
-
     const tour = await createTour(newTour);
 
     res.status(201).json({
       status: 'success',
       tour,
     });
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    throw error;
   }
+};
+
+export const getAllToursHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const tours = await getAllTours();
+
+    res.status(200).json({
+      status: 'success',
+      data: tours,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTourHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const tour = await getTour({ id: req.params.id });
+
+  res.status(200).json({
+    status: 'success',
+    data: tour,
+  });
 };
