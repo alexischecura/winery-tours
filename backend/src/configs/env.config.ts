@@ -21,6 +21,13 @@ const envSchema = z.object({
   REDIS_VERSION: z.string(),
   REDIS_URL: z.string(),
   REDIS_PORT: z.string().regex(portRegex).transform(Number),
+
+  ACCESS_TOKEN_PRIVATE_KEY: z.string(),
+  ACCESS_TOKEN_PUBLIC_KEY: z.string(),
+  REFRESH_TOKEN_PRIVATE_KEY: z.string(),
+  REFRESH_TOKEN_PUBLIC_KEY: z.string(),
+  
+  ORIGIN: z.string(),
 });
 
 export const env = envSchema.parse(process.env);
