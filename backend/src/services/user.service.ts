@@ -1,4 +1,7 @@
 import { Prisma, PrismaClient, User } from '@prisma/client';
+import { envVars } from '../configs/env.config';
+import { signJwt } from '../utils/jwt';
+import { redisClient } from '../databases/redis.db';
 
 const prisma = new PrismaClient();
 
@@ -9,8 +12,26 @@ export const createUser = async (input: Prisma.UserCreateInput) => {
 };
 
 export const getUser = async (
-  where: Prisma.UserWhereUniqueInput,
-  include?: Prisma.UserInclude
+  where: Partial<Prisma.UserWhereInput>,
+  select?: Prisma.UserSelect
 ) => {
-  return (await prisma.user.findUnique({ where, include })) as User;
+  return (await prisma.user.findFirst({ where, select })) as User;
+};
+
+export const signTokens = async (user: Prisma.UserCreateInput) => {
+  // 1. Create session
+  redisClient.set(`${user.id}`, JSON.stringify(user), {
+    EX: envVars.REDIS_CACHE_EXPIRES * 60,
+  });
+
+  // 2. Create Access and Refresh tokens
+  const access_token = signJwt({ sub: user.id }, 'ACCESS_TOKEN_PRIVATE_KEY', {
+    expiresIn: `${envVars.ACCESS_TOKEN_EXPIRES}m`,
+  });
+
+  const refresh_token = signJwt({ sub: user.id }, 'REFRESH_TOKEN_PRIVATE_KEY', {
+    expiresIn: `${envVars.REFRESH_TOKEN_EXPIRES}m`,
+  });
+
+  return { access_token, refresh_token };
 };

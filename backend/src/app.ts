@@ -1,13 +1,15 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
+import { envVars } from './configs/env.config';
+import { NotFoundError } from './utils/AppError';
+import globalErrorHandler from './controllers/error.controller';
 import wineriesRouter from './routes/wineries.routes';
 import toursRouter from './routes/tours.routes';
-import { envVars } from './configs/env.config';
-import AppError from './utils/AppError';
 
+// Global Middlewares
 const app = express();
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
@@ -22,13 +24,14 @@ if (envVars.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Configuring Routes
+// Routes
 app.use('/api/v1/wineries', wineriesRouter);
 app.use('/api/v1/tours', toursRouter);
-app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+app.all('*', (req, _, next) => {
+  next(new NotFoundError(req.originalUrl));
 });
 
-app.use('*');
+// Global errors handler
+app.use(globalErrorHandler);
 
 export default app;

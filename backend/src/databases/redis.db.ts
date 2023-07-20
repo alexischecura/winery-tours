@@ -15,3 +15,5 @@ export const connectRedisDB = async () => {
     setTimeout(connectRedisDB, 3000);
   }
 };
+
+redisClient.on('error', (error) => console.log(error));

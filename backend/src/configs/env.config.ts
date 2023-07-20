@@ -5,6 +5,7 @@ const numberRegex = /^\d+$/;
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']),
   PORT: z.string().regex(numberRegex).transform(Number),
+  ORIGIN: z.string(),
 
   POSTGRES_VERSION: z.string(),
   POSTGRES_USER: z.string(),
@@ -29,8 +30,6 @@ const envSchema = z.object({
   REFRESH_TOKEN_PRIVATE_KEY: z.string(),
   REFRESH_TOKEN_PUBLIC_KEY: z.string(),
   REFRESH_TOKEN_EXPIRES: z.string().regex(numberRegex).transform(Number),
-
-  ORIGIN: z.string(),
 });
 
 export const envVars = envSchema.parse(process.env);
