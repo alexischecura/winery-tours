@@ -21,6 +21,7 @@ const envSchema = z.object({
   REDIS_VERSION: z.string(),
   REDIS_URL: z.string(),
   REDIS_PORT: z.string().regex(numberRegex).transform(Number),
+  REDIS_CACHE_EXPIRES: z.string().regex(numberRegex).transform(Number),
 
   ACCESS_TOKEN_PRIVATE_KEY: z.string(),
   ACCESS_TOKEN_PUBLIC_KEY: z.string(),

@@ -50,7 +50,10 @@ export const createUserSchema = z
     path: ['passwordConfirm'],
   });
 
-export type CreateUser = z.infer<typeof createUserSchema>;
+export type CreateUserType = Omit<
+  z.infer<typeof createUserSchema>,
+  'passwordConfirm'
+>;
 
 export const loginUserSchema = z.object({
   email: z
