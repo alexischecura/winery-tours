@@ -5,19 +5,19 @@ import cookieParser from 'cookie-parser';
 
 import wineriesRouter from './routes/wineries.routes';
 import toursRouter from './routes/tours.routes';
-import { env } from './configs/env.config';
+import { envVars } from './configs/env.config';
 
 const app = express();
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: env.ORIGIN,
+    origin: envVars.ORIGIN,
     credentials: true,
   })
 );
 
-if (process.env.NODE_ENV === 'development') {
+if (envVars.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 

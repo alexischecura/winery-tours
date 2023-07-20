@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-const portRegex = /^\d+$/;
+const numberRegex = /^\d+$/;
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']),
-  PORT: z.string().regex(portRegex).transform(Number),
+  PORT: z.string().regex(numberRegex).transform(Number),
 
   POSTGRES_VERSION: z.string(),
   POSTGRES_USER: z.string(),
@@ -12,7 +12,7 @@ const envSchema = z.object({
   POSTGRES_DB: z.string(),
   POSTGRES_PORT: z
     .string()
-    .regex(portRegex, {
+    .regex(numberRegex, {
       message: 'Database port must be a positive integer number',
     })
     .transform(Number),
@@ -20,14 +20,16 @@ const envSchema = z.object({
 
   REDIS_VERSION: z.string(),
   REDIS_URL: z.string(),
-  REDIS_PORT: z.string().regex(portRegex).transform(Number),
+  REDIS_PORT: z.string().regex(numberRegex).transform(Number),
 
   ACCESS_TOKEN_PRIVATE_KEY: z.string(),
   ACCESS_TOKEN_PUBLIC_KEY: z.string(),
+  ACCESS_TOKEN_EXPIRES: z.string().regex(numberRegex).transform(Number),
   REFRESH_TOKEN_PRIVATE_KEY: z.string(),
   REFRESH_TOKEN_PUBLIC_KEY: z.string(),
-  
+  REFRESH_TOKEN_EXPIRES: z.string().regex(numberRegex).transform(Number),
+
   ORIGIN: z.string(),
 });
 
-export const env = envSchema.parse(process.env);
+export const envVars = envSchema.parse(process.env);
