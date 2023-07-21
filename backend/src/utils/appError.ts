@@ -8,111 +8,122 @@ enum HttpStatus {
   INTERNAL_SERVER_ERROR = 500,
 }
 
+enum ErrorCode {
+  GENERIC_ERROR = 'ERR_GENERIC',
+  VALIDATION_ERROR = 'ERR_VALIDATION',
+  AUTHENTICATION_ERROR = 'ERR_AUTHENTICATION',
+  AUTHORIZATION_ERROR = 'ERR_AUTHORIZATION',
+  INTERNAL_SERVER_ERROR = 'ERR_INTERNAL_SERVER',
+  NOT_FOUND_ERROR = 'ERR_NOT_FOUND',
+  RATE_LIMIT_ERROR = 'ERR_RATE_LIMIT',
+  DATABASE_ERROR = 'ERR_DATABASE',
+  CONFLICT_ERROR = 'ERR_CONFLICT',
+}
+
 export abstract class AppError extends Error {
   public readonly status: string;
   public readonly isOperational: boolean;
   public readonly statusCode: number;
-  public readonly code: string;
+  public readonly code: ErrorCode;
   public readonly description: string;
+  public readonly errors: object[] | undefined;
 
   constructor(
     public readonly message: string,
-    statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR,
-    code: string = 'ERR_GENERIC',
-    description: string = 'An error occurred.'
+    errors: object[] | undefined = undefined,
+    statusCode = HttpStatus.INTERNAL_SERVER_ERROR,
+    code = ErrorCode.GENERIC_ERROR,
+    description = 'An error occurred.'
   ) {
     super(message);
-    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
-    this.isOperational = true;
+    this.errors = errors;
     this.statusCode = statusCode;
     this.code = code;
     this.description = description;
+    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+    this.isOperational = true;
 
     Error.captureStackTrace(this, this.constructor);
   }
 }
 
 export class ValidationError extends AppError {
-  constructor(
-    message: string,
-    code: string = 'ERR_VALIDATION',
-    description: string = 'Validation error.'
-  ) {
-    super(message, HttpStatus.BAD_REQUEST, code, description);
+  constructor(message: string, errors: object[] | undefined = undefined) {
+    const statusCode = HttpStatus.BAD_REQUEST;
+    const code = ErrorCode.VALIDATION_ERROR;
+    const description = 'Validation error.';
+
+    super(message, errors, statusCode, code, description);
   }
 }
 
 export class AuthenticationError extends AppError {
-  constructor(
-    message: string,
-    code: string = 'ERR_AUTHENTICATION',
-    description: string = 'Authentication failed.'
-  ) {
-    super(message, HttpStatus.UNAUTHORIZED, code, description);
+  constructor(message: string, errors: object[] | undefined = undefined) {
+    const statusCode = HttpStatus.UNAUTHORIZED;
+    const code = ErrorCode.AUTHENTICATION_ERROR;
+    const description = 'Authentication failed.';
+
+    super(message, errors, statusCode, code, description);
   }
 }
 
 export class AuthorizationError extends AppError {
-  constructor(
-    message: string,
-    code: string = 'ERR_AUTHORIZATION',
-    description: string = 'Authorization failed.'
-  ) {
-    super(message, HttpStatus.FORBIDDEN, code, description);
+  constructor(message: string, errors: object[] | undefined = undefined) {
+    const statusCode = HttpStatus.FORBIDDEN;
+    const code = ErrorCode.AUTHORIZATION_ERROR;
+    const description = 'Authorization failed.';
+
+    super(message, errors, statusCode, code, description);
   }
 }
 
 export class InternalServerError extends AppError {
-  constructor(
-    message: string,
-    code: string = 'ERR_INTERNAL_SERVER',
-    description: string = 'Internal server error.'
-  ) {
-    super(message, HttpStatus.INTERNAL_SERVER_ERROR, code, description);
+  constructor(message: string, errors: object[] | undefined = undefined) {
+    const statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+    const code = ErrorCode.INTERNAL_SERVER_ERROR;
+    const description = 'Internal server error.';
+
+    super(message, errors, statusCode, code, description);
   }
 }
 
 export class NotFoundError extends AppError {
-  constructor(
-    resource: string,
-    code: string = 'ERR_NOT_FOUND',
-    description: string = 'Resource not found.'
-  ) {
-    super(
-      `Resource '${resource}' not found.`,
-      HttpStatus.NOT_FOUND,
-      code,
-      description
-    );
+  constructor(resource: string, errors: object[] | undefined = undefined) {
+    const message = `Resource '${resource}' not found.`;
+    const statusCode = HttpStatus.NOT_FOUND;
+    const code = ErrorCode.NOT_FOUND_ERROR;
+    const description = 'Resource not found.';
+
+    super(message, errors, statusCode, code, description);
   }
 }
 
 export class RateLimitError extends AppError {
-  constructor(
-    message: string,
-    code: string = 'ERR_RATE_LIMIT',
-    description: string = 'Rate limit exceeded.'
-  ) {
-    super(message, HttpStatus.TOO_MANY_REQUESTS, code, description);
+  constructor(message: string, errors: object[] | undefined = undefined) {
+    const statusCode = HttpStatus.TOO_MANY_REQUESTS;
+    const code = ErrorCode.RATE_LIMIT_ERROR;
+    const description = 'Rate limit exceeded.';
+
+    super(message, errors, statusCode, code, description);
   }
 }
 
 export class DatabaseError extends AppError {
-  constructor(
-    message: string,
-    code: string = 'ERR_DATABASE',
-    description: string = 'Database error.'
-  ) {
-    super(message, HttpStatus.INTERNAL_SERVER_ERROR, code, description);
+  constructor(message: string, errors: object[] | undefined = undefined) {
+    const statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+    const code = ErrorCode.DATABASE_ERROR;
+    const description = 'Database error.';
+
+    super(message, errors, statusCode, code, description);
   }
 }
 
 export class ConflictError extends AppError {
-  constructor(
-    message: string,
-    code: string = 'CONFLICT',
-    description: string = 'Conflict Error.'
-  ) {
-    super(message, HttpStatus.CONFLICT, code, description);
+  constructor(message: string, errors: object[] | undefined = undefined) {
+    const statusCode = HttpStatus.CONFLICT;
+    const code = ErrorCode.CONFLICT_ERROR;
+    const description = 'Conflict Error.';
+
+    super(message, errors, statusCode, code, description);
   }
 }

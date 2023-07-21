@@ -8,15 +8,17 @@ const globalErrorHandler = (
   next: NextFunction
 ) => {
   if (error instanceof AppError) {
-    const { statusCode, status, message, code, description } = error;
+    const { statusCode, status, message, code, description, errors } = error;
 
     // Send status code and error message to the client
-    res.status(statusCode).json({
+    const respJson = {
       status,
       code,
       message,
       description,
-    });
+      errors,
+    };
+    res.status(statusCode).json(respJson);
   } else {
     // Unknown errors
     console.error('Unknown error:', error);

@@ -1,22 +1,30 @@
 import { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import { ValidationError } from '../utils/AppError';
+
+type SchemaType<T> = {
+  body?: T;
+  query?: T;
+  params?: T;
+};
 
 export const validate =
-  (schema: z.AnyZodObject) =>
-  (req: Request, res: Response, next: NextFunction) => {
+  <T>(schema: z.Schema<T>) =>
+  (req: Request<SchemaType<T>>, res: Response, next: NextFunction) => {
     try {
-      schema.parse({
-        body: req.body,
-        query: req.query,
-        params: req.params,
-      });
+      const data = req.body || req.query || req.params;
+
+      schema.parse(data);
       next();
     } catch (error) {
-      if (error instanceof z.ZodError)
-        res.status(409).json({
-          status: 'fail',
-          message: error.errors,
-        });
+      if (error instanceof z.ZodError) {
+        const errors = error.errors.map((err) => ({
+          field: err.path.at(0),
+          message: err.message,
+        }));
+
+        next(new ValidationError('Error validating the data', errors));
+      }
       next(error);
     }
   };

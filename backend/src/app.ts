@@ -8,6 +8,7 @@ import { NotFoundError } from './utils/AppError';
 import globalErrorHandler from './controllers/error.controller';
 import wineriesRouter from './routes/wineries.routes';
 import toursRouter from './routes/tours.routes';
+import usersRouter from './routes/users.routes';
 
 // Global Middlewares
 const app = express();
@@ -27,6 +28,7 @@ if (envVars.NODE_ENV === 'development') {
 // Routes
 app.use('/api/v1/wineries', wineriesRouter);
 app.use('/api/v1/tours', toursRouter);
+app.use('/api/v1/users', usersRouter);
 app.all('*', (req, _, next) => {
   next(new NotFoundError(req.originalUrl));
 });

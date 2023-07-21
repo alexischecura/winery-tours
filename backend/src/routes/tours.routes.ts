@@ -6,7 +6,7 @@ import {
   getTourHandler,
 } from '../controllers/tour.controller';
 
-const router = Router();
+export const router = Router();
 
 router
   .post('/', createTourHandler)

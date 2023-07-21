@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient, User } from '@prisma/client';
 import { envVars } from '../configs/env.config';
-import { signJwt } from '../utils/jwt';
+import { signJwt } from '../utils/jwtUtils';
 import { redisClient } from '../databases/redis.db';
 
 const prisma = new PrismaClient();
