@@ -12,7 +12,7 @@ export const createUserSchema = z
     name: z
       .string({
         required_error: 'Name is required',
-        invalid_type_error: 'Name bust be a string',
+        invalid_type_error: 'Name must be a string',
       })
       .max(255),
     email: z
@@ -27,13 +27,7 @@ export const createUserSchema = z
         invalid_type_error: 'Photo must be a string(URL)',
       })
       .optional(),
-    role: z
-      .nativeEnum(UserRole, {
-        invalid_type_error: `Role must be one of this: ${JSON.stringify(
-          Object.keys(UserRole)
-        )}`,
-      })
-      .optional(),
+    role: z.nativeEnum(UserRole).optional(),
     password: z
       .string({
         required_error: 'Please provide your password',

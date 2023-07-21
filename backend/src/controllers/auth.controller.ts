@@ -38,7 +38,6 @@ export const createUserHandler = async (
 ) => {
   try {
     const { name, email, password } = req.body;
-    console.log(req.body);
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
