@@ -205,3 +205,22 @@ export const refreshAccessTokenHandler = async (
     next(new InternalServerError('Something went wrong.'));
   }
 };
+
+export const logoutUserHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await redisClient.del(res.locals.user.id);
+    res.cookie('access_token', '', { maxAge: -1 });
+    res.cookie('refresh_token', '', { maxAge: -1 });
+    res.cookie('logged_in', '', { maxAge: -1 });
+
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
