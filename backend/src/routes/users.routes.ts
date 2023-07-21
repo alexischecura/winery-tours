@@ -15,6 +15,7 @@ const router = Router();
 router.post('/signup', validateBody(createUserSchema), createUserHandler);
 router.post('/login', validateBody(loginUserSchema), loginUserHandler);
 router.post('/refresh', refreshAccessTokenHandler);
-router.post('/logout', authenticateUser, getCurrentUser, logoutUserHandler);
+router.post('/logout', authenticateUser, logoutUserHandler);
+router.get('/me', authenticateUser, getCurrentUser);
 
 export default router;

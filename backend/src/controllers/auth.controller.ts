@@ -155,10 +155,11 @@ export const authenticateUser = async (
     const localUser = {
       name: user.name,
       email: user.email,
-      role: user.role,
+      id: user.id,
     };
 
     res.locals.user = localUser;
+    next();
   } catch (error) {
     next(new InternalServerError('Something went wrong.'));
   }

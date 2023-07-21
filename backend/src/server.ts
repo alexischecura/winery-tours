@@ -8,14 +8,14 @@ connectRedisDB();
 
 const prisma = new PrismaClient();
 
-async function startServer() {
+async function init() {
   const port = envVars.PORT || 3000;
   app.listen(port, () => {
     console.log(`Server running in port: ${port}`);
   });
 }
 
-startServer()
+init()
   .catch((error) => {
     throw error;
   })
