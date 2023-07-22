@@ -118,6 +118,7 @@ export const loginUserHandler = async (
   }
 };
 
+// Verificate Authentication
 export const authenticateUser = async (
   req: Request,
   res: Response,
@@ -165,6 +166,7 @@ export const authenticateUser = async (
   }
 };
 
+//Create and send access token
 export const refreshAccessTokenHandler = async (
   req: Request,
   res: Response,
@@ -207,6 +209,7 @@ export const refreshAccessTokenHandler = async (
   }
 };
 
+// Delete user session
 export const logoutUserHandler = async (
   req: Request,
   res: Response,

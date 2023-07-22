@@ -106,7 +106,7 @@ export const createTourEventHandler = async (
     }
 
     const newTourEvent: Prisma.TourEventCreateInput = {
-      day: +req.body.day,
+      day: req.body.day,
       specialEvent: req.body.specialEvent,
       winery: { connect: { id: req.body.wineryId } },
       tour: { connect: { id: req.params.id } },
