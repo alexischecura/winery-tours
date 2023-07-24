@@ -1,11 +1,5 @@
+import { UserRole } from '@prisma/client';
 import { z } from 'zod';
-
-enum UserRole {
-  USER = 'USER',
-  GUIDE = 'GUIDE',
-  LEAD_GUIDE = 'LEAD_GUIDE',
-  ADMIN = 'ADMIN',
-}
 
 export const createUserSchema = z
   .object({

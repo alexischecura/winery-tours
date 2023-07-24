@@ -1,5 +1,5 @@
 import { CookieOptions, NextFunction, Request, Response } from 'express';
-import { Prisma } from '@prisma/client';
+import { Prisma, UserRole } from '@prisma/client';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 
@@ -118,6 +118,23 @@ export const loginUserHandler = async (
   }
 };
 
+// Protect Routes
+
+export const restrictTo =
+  (...roles: UserRole[]) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    const user = res.locals.user;
+    if (!roles.includes(user.role)) {
+      return next(
+        new AuthorizationError(
+          'You do not have permission to perform this action'
+        )
+      );
+    }
+
+    next();
+  };
+
 // Verificate Authentication
 export const authenticateUser = async (
   req: Request,
@@ -140,6 +157,7 @@ export const authenticateUser = async (
       access_token,
       'ACCESS_TOKEN_PUBLIC_KEY'
     );
+    console.log(decoded);
     if (!decoded)
       return next(
         new AuthenticationError("Invalid token or user doesn't exist")
