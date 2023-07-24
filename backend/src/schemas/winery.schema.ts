@@ -9,7 +9,7 @@ export const winerySchema = z.object({
     required_error: 'Description is required',
     invalid_type_error: 'Description must be a string',
   }),
-  adrress: z.string({
+  address: z.string({
     required_error: 'Address is required',
     invalid_type_error: 'Address must be a string',
   }),

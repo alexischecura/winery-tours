@@ -5,11 +5,13 @@ import {
   getAllToursHandler,
   getTourHandler,
 } from '../controllers/tour.controller';
+import { validateBody } from '../schemas/validators';
+import { createTourSchema } from '../schemas/tour.schema';
 
 export const router = Router();
 
 router
-  .post('/', createTourHandler)
+  .post('/', validateBody(createTourSchema), createTourHandler)
   .get('/', getAllToursHandler)
   .get('/:id', getTourHandler)
   .post('/:id/winery', createTourEventHandler);

@@ -92,7 +92,7 @@ export const loginUserHandler = async (
     // Get the user
     const user = await getUser(
       { email: email.toLowerCase() },
-      { id: true, email: true, password: true }
+      { id: true, email: true, password: true, tours: true }
     );
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -150,6 +150,7 @@ export const authenticateUser = async (
       return next(new AuthenticationError('Invalid token or session expired'));
 
     const user = await getUser({ id: JSON.parse(session).id });
+
     if (!user)
       return next(new AuthenticationError('Invalid token or session expired'));
 

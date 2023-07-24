@@ -12,7 +12,7 @@ export const createUser = async (input: Prisma.UserCreateInput) => {
 };
 
 export const getUser = async (
-  where: Partial<Prisma.UserWhereInput>,
+  where: Prisma.UserWhereInput,
   select?: Prisma.UserSelect
 ) => {
   return (await prisma.user.findFirst({ where, select })) as User;
@@ -34,4 +34,14 @@ export const signTokens = async (user: Prisma.UserCreateInput) => {
   });
 
   return { access_token, refresh_token };
+};
+
+export const signUserInTour = async (
+  where: Prisma.UserWhereUniqueInput,
+  input: Prisma.UserUpdateInput
+) => {
+  return await prisma.user.update({
+    where,
+    data: input,
+  });
 };

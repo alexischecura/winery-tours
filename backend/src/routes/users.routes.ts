@@ -8,7 +8,10 @@ import {
   logoutUserHandler,
   refreshAccessTokenHandler,
 } from '../controllers/auth.controller';
-import { getCurrentUser } from '../controllers/user.controller';
+import {
+  getCurrentUser,
+  signUserInTourHandler,
+} from '../controllers/user.controller';
 
 const router = Router();
 
@@ -17,5 +20,6 @@ router.post('/login', validateBody(loginUserSchema), loginUserHandler);
 router.post('/refresh', refreshAccessTokenHandler);
 router.post('/logout', authenticateUser, logoutUserHandler);
 router.get('/me', authenticateUser, getCurrentUser);
+router.post('/tour', authenticateUser, signUserInTourHandler);
 
 export default router;

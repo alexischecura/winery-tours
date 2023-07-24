@@ -22,7 +22,6 @@ enum ErrorCode {
 
 export abstract class AppError extends Error {
   public readonly status: string;
-  public readonly isOperational: boolean;
   public readonly statusCode: number;
   public readonly code: ErrorCode;
   public readonly description: string;
@@ -40,8 +39,7 @@ export abstract class AppError extends Error {
     this.statusCode = statusCode;
     this.code = code;
     this.description = description;
-    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
-    this.isOperational = true;
+    this.status = statusCode >= 400 && statusCode <= 499 ? 'fail' : 'error';
 
     Error.captureStackTrace(this, this.constructor);
   }
