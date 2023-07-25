@@ -54,7 +54,7 @@ export const createUserHandler = async (
     // Create new user
     const newUser = await createUser({
       name,
-      email: email.toLocaleLowerCase(),
+      email: email.toLowerCase(),
       password: hashedPassword,
       verificationCode,
     });
@@ -92,7 +92,7 @@ export const loginUserHandler = async (
     // Get the user
     const user = await getUser(
       { email: email.toLowerCase() },
-      { id: true, email: true, password: true, tours: true }
+      { id: true, email: true, password: true }
     );
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -131,7 +131,6 @@ export const restrictTo =
         )
       );
     }
-
     next();
   };
 

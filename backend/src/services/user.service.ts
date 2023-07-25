@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, User } from '@prisma/client';
+import { Prisma, PrismaClient, Review, User } from '@prisma/client';
 import { envVars } from '../configs/env.config';
 import { signJwt } from '../utils/jwtUtils';
 import { redisClient } from '../databases/redis.db';
@@ -44,4 +44,14 @@ export const signUserInTour = async (
     where,
     data: input,
   });
+};
+
+export const getUserTours = async (where: Prisma.UserWhereUniqueInput) => {
+  return;
+};
+
+export const createReview = async (input: Prisma.ReviewCreateInput) => {
+  return (await prisma.review.create({
+    data: input,
+  })) as Review;
 };

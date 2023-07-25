@@ -13,21 +13,21 @@ datasource db {
 model User {
   id               String   @id @default(cuid())
   name             String   @db.VarChar(255)
-  email            String   @db.VarChar(255)
+  email            String   @unique @db.VarChar(255)
   photo            String?  @default("default-user.jpg")
   role             UserRole @default(USER)
   password         String
   verified         Boolean? @default(false)
-  verificationCode String?  @db.Text
+  verificationCode String?  @unique @db.Text
   active           Boolean  @default(true)
 
-  tours   Tour[]
-  reviews Review[]
+  reviews    Review[]
+  bookings   Booking[]
+  assignment Assignments?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([email, verificationCode])
   @@index([email, verificationCode])
   @@map("users")
 }
@@ -37,20 +37,6 @@ enum UserRole {
   GUIDE
   LEAD_GUIDE
   ADMIN
-}
-
-model Winery {
-  id          String   @id @default(cuid())
-  name        String   @db.VarChar(255)
-  description String
-  imageCover  String
-  images      String[]
-  address     String
-  coordinates Float[]
-
-  tours TourEvent[]
-
-  @@map("wineries")
 }
 
 model Tour {
@@ -68,14 +54,39 @@ model Tour {
   imageCover      String
   startDates      DateTime[]
 
-  guides   User[]
-  reviews  Review[]
+  guides   Assignments[]
   wineries TourEvent[]
+  bookings Booking[]
+  reviews  Review[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("tours")
+}
+
+model Assignments {
+  id     String @id @default(cuid())
+  tour   Tour   @relation(fields: [tourId], references: [id])
+  tourId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model Winery {
+  id          String      @id @default(cuid())
+  name        String      @db.VarChar(255)
+  description String
+  imageCover  String
+  images      String[]
+  address     String
+  coordinates Float[]
+  tours       TourEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("wineries")
 }
 
 model TourEvent {
@@ -90,17 +101,36 @@ model TourEvent {
   @@map("tour_events")
 }
 
+model Booking {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  tour      Tour     @relation(fields: [tourId], references: [id])
+  tourId    String
+  tourDate  DateTime
+  completed Boolean  @default(false)
+  review    Review?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bookings")
+}
+
 model Review {
   id      String @id @default(cuid())
   rating  Float
   comment String
 
-  tourId String
-  tour   Tour   @relation(fields: [tourId], references: [id])
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String  @unique
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  bookingId String  @unique
+  tour      Tour    @relation(fields: [tourId], references: [id])
+  tourId    String
 
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("reviews")
 }

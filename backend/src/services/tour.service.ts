@@ -23,15 +23,6 @@ export const getTour = async (
     include,
   })) as Tour;
 };
-export const getTourInUser = async (
-  where: Prisma.TourWhereUniqueInput,
-  include?: Prisma.TourInclude
-) => {
-  return (await prisma.tour.findUnique({
-    where,
-    include,
-  })) as Tour;
-};
 
 export const createTourEvent = async (input: Prisma.TourEventCreateInput) => {
   return (await prisma.tourEvent.create({
