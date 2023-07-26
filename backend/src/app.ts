@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 
 import { envVars } from './configs/env.config';
 import { NotFoundError, RateLimitError } from './utils/AppError';
@@ -25,6 +26,8 @@ app.use(
 if (envVars.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+// HTTP Headers Security
+app.use(helmet());
 
 // Limit requests
 const limiter = rateLimit({
@@ -42,7 +45,7 @@ app.use(limiter);
 app.use('/api/v1/wineries', wineriesRouter);
 app.use('/api/v1/tours', toursRouter);
 app.use('/api/v1/users', usersRouter);
-app.get('/test', (req, res, next) => {
+app.get('api/v1/test', (_, res) => {
   res.status(200).json({
     status: 'success',
     message: 'Welcome to the winery-tours API',
