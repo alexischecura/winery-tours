@@ -11,8 +11,13 @@ import { authenticateUser, restrictTo } from '../controllers/auth.controller';
 const router = Router();
 
 router.use(authenticateUser);
-router.post('/', validateBody(winerySchema), createWineryHandler);
-router.get('/', restrictTo('ADMIN'), getAllWineriesHandler);
+router.post(
+  '/',
+  restrictTo('ADMIN'),
+  validateBody(winerySchema),
+  createWineryHandler
+);
+router.get('/', getAllWineriesHandler);
 router.get('/:id', getWineryHandler);
 
 export default router;

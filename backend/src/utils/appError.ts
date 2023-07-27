@@ -86,8 +86,7 @@ export class InternalServerError extends AppError {
 }
 
 export class NotFoundError extends AppError {
-  constructor(resource: string, errors: object[] | undefined = undefined) {
-    const message = `Resource '${resource}' not found.`;
+  constructor(message: string, errors: object[] | undefined = undefined) {
     const statusCode = HttpStatus.NOT_FOUND;
     const code = ErrorCode.NOT_FOUND_ERROR;
     const description = 'Resource not found.';

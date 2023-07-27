@@ -12,5 +12,20 @@
       "2023-09-01T00:00:00-03:00",
       "2023-10-01T00:00:00-03:00"
     ]
+  },
+  {
+    "name": "Wine Tour of Maipú, Mendoza",
+    "location": "Maipú, Mendoza, Argentina",
+    "duration": 3,
+    "maxGroupSize": 12,
+    "price": 950,
+    "summary": "Embark on an unforgettable journey through the picturesque vineyards and wineries of Maipú, Mendoza. Indulge in the region's finest wines, learn about the winemaking process, and savor the breathtaking landscapes of this Argentinean wine paradise.",
+    "description": "Join us on a delightful 3-day wine tour to explore the hidden gems of Maipú, located in the heart of Mendoza, Argentina's wine country. During this immersive experience, you'll have the opportunity to taste a variety of world-class wines, ranging from rich Malbecs to crisp Sauvignon Blancs. Our expert guides will lead you through the winemaking process, from grape to bottle, as you tour some of the region's most esteemed vineyards.",
+    "imageCover": "https://images.unsplash.com/photo-1665254369421-8621dee80367?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80",
+    "startDates": [
+      "2023-08-20T00:00:00-03:00",
+      "2023-09-21T00:00:00-03:00",
+      "2024-10-15T00:00:00-03:00"
+    ]
   }
 ]

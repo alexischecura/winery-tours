@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { AuthenticationError, ValidationError } from '../utils/AppError';
-import { signUserInTour } from '../services/user.service';
+import { createBooking } from '../services/user.service';
 import { getTour } from '../services/tour.service';
 
 export const getCurrentUser = async (
@@ -27,7 +27,7 @@ export const getCurrentUser = async (
   }
 };
 
-export const signUserInTourHandler = async (
+export const createBookingHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -46,14 +46,15 @@ export const signUserInTourHandler = async (
       return next(new ValidationError('Tour not found'));
     }
 
-    const updatedUser = await signUserInTour(
-      { id: user.id },
-      { tours: { connect: { id: tour.id } } }
-    );
+    const booking = await createBooking({
+      tourDate: req.body.tourDate,
+      user: { connect: { id: user.id } },
+      tour: { connect: { id: req.body.tourId } },
+    });
 
     res.status(201).json({
       status: 'success',
-      data: updatedUser,
+      data: booking,
     });
   } catch (error) {
     next(error);

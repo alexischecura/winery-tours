@@ -35,8 +35,8 @@ export const createTourSchema = z.object({
       invalid_type_error: 'Description must be a string',
     })
     .optional(),
-  imagesCover: z.array(z.string()),
-  startDates: z.array(z.date()),
+  imageCover: z.string(),
+  startDates: z.array(z.coerce.date()),
 });
 
-export type Tour = z.infer<typeof createTourSchema>;
+export type CreateTourType = z.infer<typeof createTourSchema>;

@@ -10,7 +10,7 @@ import {
 } from '../controllers/auth.controller';
 import {
   getCurrentUser,
-  signUserInTourHandler,
+  createBookingHandler,
 } from '../controllers/user.controller';
 
 const router = Router();
@@ -20,6 +20,6 @@ router.post('/login', validateBody(loginUserSchema), loginUserHandler);
 router.post('/refresh', refreshAccessTokenHandler);
 router.post('/logout', authenticateUser, logoutUserHandler);
 router.get('/me', authenticateUser, getCurrentUser);
-router.post('/tour', authenticateUser, signUserInTourHandler);
+router.post('/tour/book', authenticateUser, createBookingHandler);
 
 export default router;

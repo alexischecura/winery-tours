@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const reviewSchema = z.object({
+export const createReviewSchema = z.object({
   name: z
     .number({
       required_error: 'Rating is required',
@@ -14,4 +14,4 @@ export const reviewSchema = z.object({
   }),
 });
 
-export type reviewType = z.infer<typeof reviewSchema>;
+export type CreateReviewType = z.infer<typeof createReviewSchema>;

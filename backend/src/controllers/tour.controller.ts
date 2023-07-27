@@ -1,12 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import {
+  TourWithWineries,
   createTour,
   createTourEvent,
   getAllTours,
   getTour,
+  getTourWithWineries,
 } from '../services/tour.service';
 import { getWinery } from '../services/winery.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, TourEvent } from '@prisma/client';
+import { NotFoundError, ValidationError } from '../utils/AppError';
 
 export const createTourHandler = async (
   req: Request,
@@ -85,24 +88,38 @@ export const createTourEventHandler = async (
   next: NextFunction
 ) => {
   try {
-    const tour = await getTour({ id: req.params.id });
+    const tour: TourWithWineries = await getTourWithWineries({
+      id: req.params.id,
+    });
 
     if (!tour) {
-      res.status(400).json({
-        status: 'fail',
-        message: 'Tour not found: The event was not created',
-      });
-      next();
+      return next(
+        new NotFoundError(
+          `Tour with the id "${req.params.id}" was not found: The event was not created`
+        )
+      );
     }
 
     const winery = await getWinery({ id: req.body.wineryId });
 
     if (!winery) {
-      res.status(400).json({
-        status: 'fail',
-        message: 'Winery not found: The event was not created',
-      });
-      next();
+      return next(
+        new NotFoundError(
+          `Winery with the id "${req.body.wineryId}" was not found: The event was not created`
+        )
+      );
+    }
+
+    const wineriesIdsInTour = tour.wineries.map(
+      (event: TourEvent) => event.wineryId
+    );
+
+    if (wineriesIdsInTour.includes(req.body.wineryId)) {
+      return next(
+        new ValidationError(
+          `Winery with the id "${req.body.wineryId}" is alredy include in the Tour`
+        )
+      );
     }
 
     const newTourEvent: Prisma.TourEventCreateInput = {

@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, Review, User } from '@prisma/client';
+import { Booking, Prisma, PrismaClient, Review, User } from '@prisma/client';
 import { envVars } from '../configs/env.config';
 import { signJwt } from '../utils/jwtUtils';
 import { redisClient } from '../databases/redis.db';
@@ -36,18 +36,10 @@ export const signTokens = async (user: Prisma.UserCreateInput) => {
   return { access_token, refresh_token };
 };
 
-export const signUserInTour = async (
-  where: Prisma.UserWhereUniqueInput,
-  input: Prisma.UserUpdateInput
-) => {
-  return await prisma.user.update({
-    where,
+export const createBooking = async (input: Prisma.BookingCreateInput) => {
+  return (await prisma.booking.create({
     data: input,
-  });
-};
-
-export const getUserTours = async (where: Prisma.UserWhereUniqueInput) => {
-  return;
+  })) as Booking;
 };
 
 export const createReview = async (input: Prisma.ReviewCreateInput) => {

@@ -16,12 +16,21 @@ export const getAllTours = async (select?: Prisma.TourSelect) => {
 
 export const getTour = async (
   where: Prisma.TourWhereUniqueInput,
-  include?: Prisma.TourInclude
+  select?: Prisma.TourSelect
 ) => {
   return (await prisma.tour.findUnique({
     where,
-    include,
+    select,
   })) as Tour;
+};
+
+export const getTourWithWineries = async (
+  where: Prisma.TourWhereUniqueInput
+) => {
+  return await prisma.tour.findUnique({
+    where,
+    include: { wineries: true },
+  });
 };
 
 export const createTourEvent = async (input: Prisma.TourEventCreateInput) => {
@@ -29,3 +38,7 @@ export const createTourEvent = async (input: Prisma.TourEventCreateInput) => {
     data: input,
   })) as TourEvent;
 };
+
+export type TourWithWineries = Prisma.PromiseReturnType<
+  typeof getTourWithWineries
+>;

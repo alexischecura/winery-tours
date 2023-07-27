@@ -23,7 +23,7 @@ model User {
 
   reviews    Review[]
   bookings   Booking[]
-  assignment Assignments?
+  assignment Assignments[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

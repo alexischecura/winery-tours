@@ -16,7 +16,7 @@ export const getAllWineries = async (select?: Prisma.WinerySelect) => {
 
 export const getWinery = async (
   where: Prisma.WineryWhereUniqueInput,
-  include?: Prisma.WineryInclude
+  select?: Prisma.WinerySelect
 ) => {
-  return (await prisma.winery.findUnique({ where, include })) as Winery;
+  return (await prisma.winery.findUnique({ where, select })) as Winery;
 };

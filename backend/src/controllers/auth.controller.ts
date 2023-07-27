@@ -156,7 +156,6 @@ export const authenticateUser = async (
       access_token,
       'ACCESS_TOKEN_PUBLIC_KEY'
     );
-    console.log(decoded);
     if (!decoded)
       return next(
         new AuthenticationError("Invalid token or user doesn't exist")
@@ -175,12 +174,12 @@ export const authenticateUser = async (
       name: user.name,
       email: user.email,
       id: user.id,
+      role: user.role,
     };
-
     res.locals.user = localUser;
     next();
   } catch (error) {
-    next(new InternalServerError('Something went wrong.'));
+    next(error);
   }
 };
 
