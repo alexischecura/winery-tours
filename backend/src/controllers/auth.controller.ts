@@ -76,7 +76,8 @@ export const createUserHandler = async (
       // Code'P2002' is when there are a conflict in a unique field in prisma.
       return next(new ConflictError('Email already exists'));
     }
-    next(new InternalServerError('Something went wrong.'));
+    console.log(error);
+    next(new InternalServerError('Something went wrong when signing in'));
   }
 };
 
@@ -107,14 +108,13 @@ export const loginUserHandler = async (
       ...accessTokenCookieOptions,
       httpOnly: false,
     });
-
     res.status(200).json({
       status: 'success',
       access_token,
     });
   } catch (error) {
     console.log(error);
-    next(new InternalServerError('Something went wrong.'));
+    next(new InternalServerError('Something went wrong when logging in'));
   }
 };
 
@@ -124,6 +124,9 @@ export const restrictTo =
   (...roles: UserRole[]) =>
   (req: Request, res: Response, next: NextFunction) => {
     const user = res.locals.user;
+
+    if (!user) return next(new AuthenticationError('Session has expired'));
+
     if (!roles.includes(user.role)) {
       return next(
         new AuthorizationError(
@@ -179,7 +182,8 @@ export const authenticateUser = async (
     res.locals.user = localUser;
     next();
   } catch (error) {
-    next(error);
+    console.log(error);
+    next(new InternalServerError('Something went wrong when authenticating'));
   }
 };
 
@@ -222,7 +226,10 @@ export const refreshAccessTokenHandler = async (
       access_token,
     });
   } catch (error) {
-    next(new InternalServerError('Something went wrong.'));
+    console.log(error);
+    next(
+      new InternalServerError('Something went wrong when refreshing the token')
+    );
   }
 };
 
@@ -242,6 +249,7 @@ export const logoutUserHandler = async (
       status: 'success',
     });
   } catch (error) {
-    next(error);
+    console.log(error);
+    next(new InternalServerError('Something went wrong when logging out'));
   }
 };
