@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { AuthenticationError, ValidationError } from '../utils/AppError';
+import {
+  AuthenticationError,
+  InternalServerError,
+  NotFoundError,
+} from '../utils/AppError';
 import { createBooking } from '../services/user.service';
 import { getTour } from '../services/tour.service';
 
@@ -11,10 +15,7 @@ export const getCurrentUser = async (
   try {
     const user = res.locals.user;
 
-    if (!user)
-      return next(
-        new AuthenticationError("Session has expired or user doesn't exist")
-      );
+    if (!user) return next(new AuthenticationError('Session has expired'));
 
     res.status(200).json({
       status: 'success',
@@ -23,7 +24,8 @@ export const getCurrentUser = async (
       },
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(new InternalServerError('Something went wrong when getting the user'));
   }
 };
 
@@ -35,15 +37,14 @@ export const createBookingHandler = async (
   try {
     const user = res.locals.user;
 
-    if (!user)
-      return next(
-        new AuthenticationError("Session has expired or user doesn't exist")
-      );
+    if (!user) return next(new AuthenticationError('Session has expired'));
 
     const tour = await getTour({ id: req.body.tourId });
 
     if (!tour) {
-      return next(new ValidationError('Tour not found'));
+      return next(
+        new NotFoundError(`Tour with the id ${req.body.tourId} not found`)
+      );
     }
 
     const booking = await createBooking({
@@ -57,6 +58,9 @@ export const createBookingHandler = async (
       data: booking,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(
+      new InternalServerError('Something went wrong when creating the booking')
+    );
   }
 };

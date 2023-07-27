@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { AuthenticationError, ValidationError } from '../utils/AppError';
+import {
+  AuthenticationError,
+  InternalServerError,
+  ValidationError,
+} from '../utils/AppError';
 import { Prisma } from '@prisma/client';
 
 export const createReviewHandler = async (
@@ -31,6 +35,9 @@ export const createReviewHandler = async (
       data: newReview,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(
+      new InternalServerError('Something went wrong when creating the review')
+    );
   }
 };
