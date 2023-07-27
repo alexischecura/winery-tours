@@ -41,7 +41,9 @@ export const createTourHandler = async (
     });
   } catch (error) {
     console.error(error);
-    next(new InternalServerError('Something went wrong creating the tour'));
+    next(
+      new InternalServerError('Something went wrong when creating the tour')
+    );
   }
 };
 
@@ -59,7 +61,9 @@ export const getAllToursHandler = async (
     });
   } catch (error) {
     console.error(error);
-    next(new InternalServerError('Something went wrong getting the tours'));
+    next(
+      new InternalServerError('Something went wrong when getting the tours')
+    );
   }
 };
 
@@ -83,7 +87,7 @@ export const getTourHandler = async (
     });
   } catch (error) {
     console.error(error);
-    next(new InternalServerError('Something went wrong getting the tour'));
+    next(new InternalServerError('Something went wrong when getting the tour'));
   }
 };
 
@@ -143,7 +147,9 @@ export const createTourEventHandler = async (
   } catch (error) {
     console.error(error);
     next(
-      new InternalServerError('Something went wrong creating the tour event')
+      new InternalServerError(
+        'Something went wrong when creating the tour event'
+      )
     );
   }
 };
