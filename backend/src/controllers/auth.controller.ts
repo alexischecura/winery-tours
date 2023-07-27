@@ -16,7 +16,6 @@ import { signJwt, verifyJwt } from '../utils/jwtUtils';
 import { redisClient } from '../databases/redis.db';
 
 // Cookies Configurations
-
 const cookiesOptions: CookieOptions = {
   httpOnly: true,
   sameSite: 'lax',
@@ -118,8 +117,7 @@ export const loginUserHandler = async (
   }
 };
 
-// Protect Routes
-
+// Route Restriction Depending on User Role
 export const restrictTo =
   (...roles: UserRole[]) =>
   (req: Request, res: Response, next: NextFunction) => {
@@ -187,15 +185,15 @@ export const authenticateUser = async (
   }
 };
 
-//Create and send access token
+// Refreshing the token (Create and Send Access Token with)
 export const refreshAccessTokenHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const errorMessage = 'Failed to refresh access token';
+  const errorMessage = 'Failed to refresh access token';
 
+  try {
     const refresh_token = req.cookies.refresh_token;
     if (!refresh_token) return next(new AuthorizationError(errorMessage));
 
