@@ -9,7 +9,11 @@ import {
 } from '../services/tour.service';
 import { getWinery } from '../services/winery.service';
 import { Prisma, TourEvent } from '@prisma/client';
-import { NotFoundError, ValidationError } from '../utils/AppError';
+import {
+  InternalServerError,
+  NotFoundError,
+  ValidationError,
+} from '../utils/AppError';
 
 export const createTourHandler = async (
   req: Request,
@@ -36,7 +40,8 @@ export const createTourHandler = async (
       tour,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(new InternalServerError('Something went wrong creating the tour'));
   }
 };
 
@@ -53,7 +58,8 @@ export const getAllToursHandler = async (
       data: tours,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(new InternalServerError('Something went wrong getting the tours'));
   }
 };
 
@@ -66,11 +72,9 @@ export const getTourHandler = async (
     const tour = await getTour({ id: req.params.id });
 
     if (!tour) {
-      res.status(404).json({
-        status: 'fail',
-        message: 'Tour not found',
-      });
-      next();
+      return next(
+        new NotFoundError(`Tour with the id: ${req.params.id} not found`)
+      );
     }
 
     res.status(200).json({
@@ -78,7 +82,8 @@ export const getTourHandler = async (
       data: tour,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(new InternalServerError('Something went wrong getting the tour'));
   }
 };
 
@@ -95,7 +100,7 @@ export const createTourEventHandler = async (
     if (!tour) {
       return next(
         new NotFoundError(
-          `Tour with the id "${req.params.id}" was not found: The event was not created`
+          `Tour with the id ${req.params.id} was not found: The event was not created`
         )
       );
     }
@@ -105,7 +110,7 @@ export const createTourEventHandler = async (
     if (!winery) {
       return next(
         new NotFoundError(
-          `Winery with the id "${req.body.wineryId}" was not found: The event was not created`
+          `Winery with the id ${req.body.wineryId} was not found: The event was not created`
         )
       );
     }
@@ -117,7 +122,7 @@ export const createTourEventHandler = async (
     if (wineriesIdsInTour.includes(req.body.wineryId)) {
       return next(
         new ValidationError(
-          `Winery with the id "${req.body.wineryId}" is alredy include in the Tour`
+          `Winery with the id ${req.body.wineryId} is alredy include in the Tour`
         )
       );
     }
@@ -136,6 +141,9 @@ export const createTourEventHandler = async (
       data: tourEvent,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(
+      new InternalServerError('Something went wrong creating the tour event')
+    );
   }
 };
