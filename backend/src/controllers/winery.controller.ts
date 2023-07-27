@@ -4,6 +4,7 @@ import {
   getAllWineries,
   getWinery,
 } from '../services/winery.service';
+import { InternalServerError } from '../utils/AppError';
 
 export const createWineryHandler = async (
   req: Request,
@@ -26,7 +27,10 @@ export const createWineryHandler = async (
       winery,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(
+      new InternalServerError('Something went wrong when creating the winery')
+    );
   }
 };
 
@@ -43,7 +47,10 @@ export const getAllWineriesHandler = async (
       wineries,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(
+      new InternalServerError('Something went wrong when getting the wineries')
+    );
   }
 };
 
@@ -68,6 +75,9 @@ export const getWineryHandler = async (
       winery,
     });
   } catch (error) {
-    next(error);
+    console.error(error);
+    next(
+      new InternalServerError('Something went wrong when getting the winery')
+    );
   }
 };
