@@ -1,9 +1,11 @@
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
+import nodemailer from 'nodemailer';
 
 import { envVars } from './configs/env.config';
 import { NotFoundError, RateLimitError } from './utils/AppError';
@@ -12,8 +14,17 @@ import wineriesRouter from './routes/wineries.routes';
 import toursRouter from './routes/tours.routes';
 import usersRouter from './routes/users.routes';
 
-// Global Middlewares
 const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+(async () => {
+  const credentials = await nodemailer.createTestAccount();
+  console.log(credentials);
+})();
+
+// Global Middlewares
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 app.use(
@@ -37,7 +48,8 @@ const limiter = rateLimit({
       `Too many request from this IP, try again in ${envVars.RATE_LIMIT_TIME_IN_SECONDS} seconds`
     );
   },
-  windowMs: envVars.RATE_LIMIT_TIME_IN_SECONDS * 1000,
+  // windowMs: envVars.RATE_LIMIT_TIME_IN_SECONDS * 1000,
+  windowMs: 1000,
 });
 app.use(limiter);
 
@@ -52,7 +64,7 @@ app.get('api/v1/test', (_, res) => {
   });
 });
 app.all('*', (req, _, next) => {
-  next(new NotFoundError(req.originalUrl));
+  next(new NotFoundError(`Resource in ${req.originalUrl} not found`));
 });
 
 // Global errors handler

@@ -7,6 +7,11 @@ const envSchema = z.object({
   PORT: z.string().regex(numberRegex).transform(Number),
   ORIGIN: z.string(),
   RATE_LIMIT_TIME_IN_SECONDS: z.string().regex(numberRegex).transform(Number),
+  EMAIL_USER: z.string(),
+  EMAIL_PASS: z.string(),
+  EMAIL_HOST: z.string(),
+  EMAIL_PORT: z.string().regex(numberRegex).transform(Number),
+  EMAIL_FROM: z.string(),
 
   POSTGRES_VERSION: z.string(),
   POSTGRES_USER: z.string(),
