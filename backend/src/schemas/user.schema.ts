@@ -21,7 +21,6 @@ export const createUserSchema = z
         invalid_type_error: 'Photo must be a string(URL)',
       })
       .optional(),
-    role: z.nativeEnum(UserRole).optional(),
     password: z
       .string({
         required_error: 'Please provide your password',
@@ -61,3 +60,11 @@ export const loginUserSchema = z.object({
 });
 
 export type LoginUser = z.infer<typeof loginUserSchema>;
+
+export const changeRoleSchema = z.object({
+  userId: z.string({
+    required_error: 'Please provide the user id',
+    invalid_type_error: 'Id must be a string',
+  }),
+  role: z.nativeEnum(UserRole),
+});

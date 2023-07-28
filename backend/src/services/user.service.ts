@@ -15,7 +15,15 @@ export const getUser = async (
   where: Prisma.UserWhereInput,
   select?: Prisma.UserSelect
 ) => {
+  where.active = true;
   return (await prisma.user.findFirst({ where, select })) as User;
+};
+
+export const updateUser = async (
+  where: Prisma.UserWhereUniqueInput,
+  input: Prisma.UserUpdateInput
+) => {
+  return await prisma.user.update({ where, data: input });
 };
 
 export const signTokens = async (user: Prisma.UserCreateInput) => {

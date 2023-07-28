@@ -5,12 +5,18 @@ import bcrypt from 'bcryptjs';
 
 import { envVars } from '../configs/env.config';
 import { CreateUserType, LoginUser } from '../schemas/user.schema';
-import { createUser, getUser, signTokens } from '../services/user.service';
+import {
+  createUser,
+  getUser,
+  signTokens,
+  updateUser,
+} from '../services/user.service';
 import {
   AuthenticationError,
   AuthorizationError,
   ConflictError,
   InternalServerError,
+  NotFoundError,
 } from '../utils/AppError';
 import { signJwt, verifyJwt } from '../utils/jwtUtils';
 import { redisClient } from '../databases/redis.db';
@@ -75,7 +81,7 @@ export const createUserHandler = async (
       // Code'P2002' is when there are a conflict in a unique field in prisma.
       return next(new ConflictError('Email already exists'));
     }
-    console.log(error);
+    console.error(error);
     next(new InternalServerError('Something went wrong when signing in'));
   }
 };
@@ -112,7 +118,7 @@ export const loginUserHandler = async (
       access_token,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(new InternalServerError('Something went wrong when logging in'));
   }
 };
@@ -180,7 +186,7 @@ export const authenticateUser = async (
     res.locals.user = localUser;
     next();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(new InternalServerError('Something went wrong when authenticating'));
   }
 };
@@ -191,7 +197,7 @@ export const refreshAccessTokenHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  const errorMessage = 'Failed to refresh access token';
+  const errorMessage = 'Failed to refresh access token, please login again';
 
   try {
     const refresh_token = req.cookies.refresh_token;
@@ -202,7 +208,6 @@ export const refreshAccessTokenHandler = async (
       'REFRESH_TOKEN_PUBLIC_KEY'
     );
     if (!decoded) return next(new AuthorizationError(errorMessage));
-
     const session = await redisClient.get(decoded.sub);
     if (!session) return next(new AuthorizationError(errorMessage));
 
@@ -224,7 +229,7 @@ export const refreshAccessTokenHandler = async (
       access_token,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(
       new InternalServerError('Something went wrong when refreshing the token')
     );
@@ -247,7 +252,40 @@ export const logoutUserHandler = async (
       status: 'success',
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(new InternalServerError('Something went wrong when logging out'));
+  }
+};
+
+// Change the role to a user
+export const changeRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await getUser({ id: req.body.userId });
+    if (!user)
+      return next(
+        new NotFoundError(
+          `The user with the id ${req.body.userId} was not found`
+        )
+      );
+
+    const userWithNewRole = await updateUser(
+      {
+        id: req.body.userId,
+      },
+      {
+        role: req.body.role,
+      }
+    );
+    res.status(200).json({
+      status: 'success',
+      message: `The user ${userWithNewRole.email} now have the role of ${userWithNewRole.role}`,
+    });
+  } catch (error) {
+    console.error(error);
+    next(new InternalServerError('Something went wrong when chaging the role'));
   }
 };

@@ -1,12 +1,18 @@
 import { Router } from 'express';
-import { createUserSchema, loginUserSchema } from '../schemas/user.schema';
+import {
+  changeRoleSchema,
+  createUserSchema,
+  loginUserSchema,
+} from '../schemas/user.schema';
 import { validateBody } from '../schemas/validators';
 import {
   authenticateUser,
+  changeRole,
   createUserHandler,
   loginUserHandler,
   logoutUserHandler,
   refreshAccessTokenHandler,
+  restrictTo,
 } from '../controllers/auth.controller';
 import {
   getCurrentUser,
@@ -18,8 +24,17 @@ const router = Router();
 router.post('/signup', validateBody(createUserSchema), createUserHandler);
 router.post('/login', validateBody(loginUserSchema), loginUserHandler);
 router.post('/refresh', refreshAccessTokenHandler);
-router.post('/logout', authenticateUser, logoutUserHandler);
-router.get('/me', authenticateUser, getCurrentUser);
-router.post('/tour/book', authenticateUser, createBookingHandler);
 
+//Autenticated Routes
+router.use(authenticateUser);
+router.post('/logout', logoutUserHandler);
+router.get('/me', getCurrentUser);
+router.post('/tour/book', createBookingHandler);
+
+router.post(
+  '/role',
+  restrictTo('ADMIN'),
+  validateBody(changeRoleSchema),
+  changeRole
+);
 export default router;
