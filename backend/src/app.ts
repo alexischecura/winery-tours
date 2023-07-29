@@ -36,14 +36,13 @@ app.use(helmet());
 
 // Limit requests
 const limiter = rateLimit({
-  max: 5,
+  max: 20,
   handler: () => {
     throw new RateLimitError(
       `Too many request from this IP, try again in ${envVars.RATE_LIMIT_TIME_IN_SECONDS} seconds`
     );
   },
-  // windowMs: envVars.RATE_LIMIT_TIME_IN_SECONDS * 1000,
-  windowMs: 1000,
+  windowMs: envVars.RATE_LIMIT_TIME_IN_SECONDS * 1000,
 });
 app.use(limiter);
 
