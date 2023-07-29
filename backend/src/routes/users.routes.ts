@@ -3,8 +3,9 @@ import {
   changeRoleSchema,
   createUserSchema,
   loginUserSchema,
+  verifyEmailSchema,
 } from '../schemas/user.schema';
-import { validateBody } from '../schemas/validators';
+import { validateBody, validateParams } from '../schemas/validators';
 import {
   authenticateUser,
   changeRole,
@@ -13,6 +14,7 @@ import {
   logoutUserHandler,
   refreshAccessTokenHandler,
   restrictTo,
+  verifyEmailHandler,
 } from '../controllers/auth.controller';
 import {
   getCurrentUser,
@@ -22,6 +24,11 @@ import {
 const router = Router();
 
 router.post('/signup', validateBody(createUserSchema), createUserHandler);
+router.get(
+  '/verification/:verificationCode',
+  validateParams(verifyEmailSchema),
+  verifyEmailHandler
+);
 router.post('/login', validateBody(loginUserSchema), loginUserHandler);
 router.post('/refresh', refreshAccessTokenHandler);
 

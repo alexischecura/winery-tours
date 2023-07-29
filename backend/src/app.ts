@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
-import nodemailer from 'nodemailer';
 
 import { envVars } from './configs/env.config';
 import { NotFoundError, RateLimitError } from './utils/AppError';
@@ -18,11 +17,6 @@ const app = express();
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
-
-(async () => {
-  const credentials = await nodemailer.createTestAccount();
-  console.log(credentials);
-})();
 
 // Global Middlewares
 app.use(express.json({ limit: '10kb' }));

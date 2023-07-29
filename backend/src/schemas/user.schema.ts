@@ -68,3 +68,7 @@ export const changeRoleSchema = z.object({
   }),
   role: z.nativeEnum(UserRole),
 });
+
+export const verifyEmailSchema = z.object({
+  verificationCode: z.string(),
+});

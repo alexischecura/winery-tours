@@ -18,6 +18,7 @@ import {
   InternalServerError,
   NotFoundError,
 } from '../utils/AppError';
+import Email from '../utils/Email';
 import { signJwt, verifyJwt } from '../utils/jwtUtils';
 import { redisClient } from '../databases/redis.db';
 
@@ -64,6 +65,16 @@ export const createUserHandler = async (
       verificationCode,
     });
 
+    const verificationUrl = `${envVars.ORIGIN}/api/v1/users/verification/${verifyCode}`;
+    try {
+      await new Email(newUser, verificationUrl).sendVerificationCode();
+      await updateUser({ id: newUser.id }, { verificationCode });
+    } catch (error) {
+      return new InternalServerError(
+        'There was an error sending the verification email. Please try again later.'
+      );
+    }
+
     res.status(201).json({
       status: 'success',
       data: {
@@ -86,6 +97,40 @@ export const createUserHandler = async (
   }
 };
 
+// Verify the Email
+export const verifyEmailHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const verificationCode = crypto
+      .createHash('sha256')
+      .update(req.params.verificationCode)
+      .digest('hex');
+
+    const user = await updateUser(
+      {
+        verificationCode,
+      },
+      { verified: true, verificationCode: null }
+    );
+
+    if (!user) {
+      return next(new AuthenticationError('Invalid verification code'));
+    }
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Email verified successfully',
+    });
+  } catch (error) {
+    next(
+      new InternalServerError('Something went wrong when verifying the email')
+    );
+  }
+};
+
 // Login an User
 export const loginUserHandler = async (
   req: Request<{}, {}, LoginUser>,
@@ -98,10 +143,17 @@ export const loginUserHandler = async (
     // Get the user
     const user = await getUser(
       { email: email.toLowerCase() },
-      { id: true, email: true, password: true }
+      { id: true, email: true, password: true, verified: true }
     );
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user) {
+      return next(new AuthenticationError('Incorrect email or password'));
+    }
+    if (!user.verified) {
+      return next(new AuthorizationError('Please verify your email'));
+    }
+
+    if (!(await bcrypt.compare(password, user.password))) {
       return next(new AuthenticationError('Incorrect email or password'));
     }
 

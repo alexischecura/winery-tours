@@ -7,7 +7,6 @@ import { envVars } from '../configs/env.config';
 const smtpTransport = {
   host: envVars.EMAIL_HOST,
   port: envVars.EMAIL_PORT,
-  secure: true,
   auth: {
     user: envVars.EMAIL_USER,
     pass: envVars.EMAIL_PASS,
@@ -29,13 +28,12 @@ export default class Email {
     return nodemailer.createTransport(smtpTransport);
   }
 
-  private async sendEmail(template: string, subject: string) {
+  private async send(template: string, subject: string) {
     const html = pug.renderFile(`${__dirname}/../views/${template}.pug`, {
       firstName: this.firstName,
       subject,
       url: this.url,
     });
-
     const mailOptions = {
       from: this.from,
       to: this.to,
@@ -49,12 +47,15 @@ export default class Email {
   }
 
   async sendVerificationCode() {
-    await this.sendEmail('verificationCode', 'Your account verification code');
+    await this.send(
+      'verificationEmailTemplate',
+      'Your account verification code'
+    );
   }
 
   async sendPasswordResetToken() {
-    await this.sendEmail(
-      'resetPassword',
+    await this.send(
+      'resetPasswordEmailTemplate',
       'Your password reset token (valid for only 10 minutes)'
     );
   }
