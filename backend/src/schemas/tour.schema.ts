@@ -36,7 +36,9 @@ export const createTourSchema = z.object({
     })
     .optional(),
   imageCover: z.string(),
-  startDates: z.array(z.coerce.date()),
+  startDates: z.array(
+    z.string().datetime({ message: 'Date must be in ISO String' })
+  ),
 });
 
 export type CreateTourType = z.infer<typeof createTourSchema>;

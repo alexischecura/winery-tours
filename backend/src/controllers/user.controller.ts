@@ -3,9 +3,11 @@ import {
   AuthenticationError,
   InternalServerError,
   NotFoundError,
+  ValidationError,
 } from '../utils/AppError';
 import { createBooking } from '../services/user.service';
 import { getTour } from '../services/tour.service';
+import { Booking, Tour } from '@prisma/client';
 
 export const getCurrentUser = async (
   req: Request,
@@ -35,22 +37,27 @@ export const createBookingHandler = async (
   next: NextFunction
 ) => {
   try {
+    // User authentication required
     const user = res.locals.user;
+
+    const { tourId, tourDate } = req.body;
 
     if (!user) return next(new AuthenticationError('Session has expired'));
 
-    const tour = await getTour({ id: req.body.tourId });
+    const tour = await getTour({ id: tourId });
 
     if (!tour) {
-      return next(
-        new NotFoundError(`Tour with the id ${req.body.tourId} not found`)
-      );
+      return next(new NotFoundError(`Tour with the id ${tourId} not found`));
+    }
+
+    if (!tour.startDates.map((date) => date.toISOString()).includes(tourDate)) {
+      return next(new ValidationError('Tour Date not found in the tour'));
     }
 
     const booking = await createBooking({
-      tourDate: req.body.tourDate,
+      tourDate,
       user: { connect: { id: user.id } },
-      tour: { connect: { id: req.body.tourId } },
+      tour: { connect: { id: tourId } },
     });
 
     res.status(201).json({

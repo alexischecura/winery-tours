@@ -104,6 +104,7 @@ export const verifyEmailHandler = async (
   next: NextFunction
 ) => {
   try {
+    // Params type verification done in routes
     const verificationCode = crypto
       .createHash('sha256')
       .update(req.params.verificationCode)
@@ -138,6 +139,7 @@ export const loginUserHandler = async (
   next: NextFunction
 ) => {
   try {
+    // Body types verification done in routes
     const { email, password } = req.body;
 
     // Get the user
