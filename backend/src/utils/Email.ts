@@ -19,7 +19,7 @@ export default class Email {
   private from: string;
 
   constructor(private user: User, private url: string) {
-    this.firstName = user.name.split(' ')[0];
+    this.firstName = user.firstName;
     this.to = user.email;
     this.from = envVars.EMAIL_FROM;
   }

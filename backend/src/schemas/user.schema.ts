@@ -3,12 +3,20 @@ import { z } from 'zod';
 
 export const createUserSchema = z
   .object({
-    name: z
+    firstName: z
       .string({
-        required_error: 'Name is required',
-        invalid_type_error: 'Name must be a string',
+        required_error: 'First name is required',
+        invalid_type_error: 'First name must be a string',
       })
-      .max(255),
+      .max(255)
+      .regex(/^[a-zA-Z ]*$/),
+    lastName: z
+      .string({
+        required_error: 'Last name is required',
+        invalid_type_error: 'Last name must be a string',
+      })
+      .max(255)
+      .regex(/^[a-zA-Z ]*$/),
     email: z
       .string({
         required_error: 'E-mail is required',
@@ -16,6 +24,7 @@ export const createUserSchema = z
       })
       .max(255)
       .email('Invalid email address'),
+    nationalId: z.string(),
     photo: z
       .string({
         invalid_type_error: 'Photo must be a string(URL)',

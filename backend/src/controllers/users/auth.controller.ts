@@ -47,7 +47,7 @@ export const createUserHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { name, email, password } = req.body;
+    const { firstName, lastName, nationalId, email, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -59,7 +59,9 @@ export const createUserHandler = async (
 
     // Create new user
     const newUser = await createUser({
-      name,
+      firstName,
+      lastName,
+      nationalId,
       email: email.toLowerCase(),
       password: hashedPassword,
       verificationCode,
@@ -68,7 +70,6 @@ export const createUserHandler = async (
     const verificationUrl = `${envVars.ORIGIN}/api/v1/users/verification/${verifyCode}`;
     try {
       await new Email(newUser, verificationUrl).sendVerificationCode();
-      await updateUser({ id: newUser.id }, { verificationCode });
     } catch (error) {
       return new InternalServerError(
         'There was an error sending the verification email. Please try again later.'
@@ -79,7 +80,7 @@ export const createUserHandler = async (
       status: 'success',
       data: {
         user: {
-          name: newUser.name,
+          name: `${newUser.firstName} ${newUser.lastName}`,
           email: newUser.email,
         },
       },
@@ -232,7 +233,7 @@ export const authenticateUser = async (
       return next(new AuthenticationError('Invalid token or session expired.'));
 
     const localUser = {
-      name: user.name,
+      name: `${user.firstName} ${user.lastName}`,
       email: user.email,
       id: user.id,
       role: user.role,

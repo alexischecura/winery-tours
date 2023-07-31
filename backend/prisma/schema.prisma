@@ -11,13 +11,15 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(cuid())
-  name     String   @db.VarChar(255)
-  email    String   @unique @db.VarChar(255)
-  photo    String?  @default("default-user.jpg")
-  role     UserRole @default(USER)
-  password String
-  active   Boolean  @default(true)
+  id         String   @id @default(cuid())
+  firstName  String   @db.VarChar(255)
+  lastName   String   @db.VarChar(255)
+  email      String   @unique @db.VarChar(255)
+  nationalId String   @db.VarChar(255)
+  photo      String?  @default("default-user.jpg")
+  role       UserRole @default(USER)
+  password   String
+  active     Boolean  @default(true)
 
   verified             Boolean?  @default(false)
   verificationCode     String?   @unique @db.Text

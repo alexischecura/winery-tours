@@ -29,7 +29,8 @@ export const updateUser = async (
 
 export const signTokens = async (user: Prisma.UserCreateInput) => {
   // 1. Create session
-  redisClient.set(`${user.id}`, JSON.stringify(user), {
+  const userSession = { id: user.id, email: user.email };
+  redisClient.set(`${user.id}`, JSON.stringify(userSession), {
     EX: envVars.REDIS_CACHE_EXPIRES * 60,
   });
 
