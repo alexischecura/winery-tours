@@ -289,29 +289,35 @@ export const refreshAccessTokenHandler = async (
     );
   }
 };
+export const invalidateSession = async (res: Response, userId?: string) => {
+  if (userId) await redisClient.del(userId);
+  res.cookie('access_token', '', { maxAge: -1 });
+  res.cookie('refresh_token', '', { maxAge: -1 });
+  res.cookie('logged_in', '', { maxAge: -1 });
+};
 
-// Delete user session
+// Close user session or sessions
 export const logoutUserHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    await redisClient.del(res.locals.user.id);
-    res.cookie('access_token', '', { maxAge: -1 });
-    res.cookie('refresh_token', '', { maxAge: -1 });
-    res.cookie('logged_in', '', { maxAge: -1 });
+    const userId = res.locals.user?.id;
 
-    res.status(200).json({
-      status: 'success',
-    });
+    const logoutAllSessions = req.query.all === 'true';
+
+    await invalidateSession(res, logoutAllSessions ? undefined : userId);
   } catch (error) {
     console.error(error);
     next(new InternalServerError('Something went wrong when logging out.'));
   }
+  res.status(200).json({
+    status: 'success',
+  });
 };
 
-// Send reset password link to email
+// Send reset password link to user email
 export const forgotPasswordHandler = async (
   req: Request,
   res: Response,
@@ -350,12 +356,11 @@ export const forgotPasswordHandler = async (
       },
       {
         passwordResetToken,
-        passwordResetAt: new Date(Date.now() + 10 * 60 * 1000),
+        passwordResetExpires: new Date(Date.now() + 10 * 60 * 1000),
       }
     );
     try {
       const url = `${envVars.ORIGIN}/api/v1/users/resetPassword/${resetToken}`;
-      console.log(url);
 
       await new Email(user, url).sendPasswordResetToken();
 
@@ -370,7 +375,7 @@ export const forgotPasswordHandler = async (
         },
         {
           passwordResetToken: null,
-          passwordResetAt: null,
+          passwordResetExpires: null,
         }
       );
       console.error(error);
@@ -402,15 +407,12 @@ export const resetPasswordHandler = async (
       .update(req.params.token)
       .digest('hex');
 
-    console.log(passwordResetToken);
-
     const user = await getUser({
       passwordResetToken,
-      passwordResetAt: {
+      passwordResetExpires: {
         gt: new Date(),
       },
     });
-    console.log(user);
     if (!user)
       return next(new AuthorizationError('Token is invalid or has expired.'));
 
@@ -423,16 +425,17 @@ export const resetPasswordHandler = async (
       {
         password: hashedPassword,
         passwordResetToken: null,
-        passwordResetAt: null,
+        passwordResetExpires: null,
       }
     );
+    await invalidateSession(res, user.id);
 
     res.status(202).json({
       status: 'success',
       message: 'Your password was successfully updated',
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return next(
       new InternalServerError(
         'Something went wrong when handling the reset password.'

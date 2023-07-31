@@ -51,7 +51,7 @@ router.patch(
 
 //Autenticated Routes
 router.use(authenticateUser);
-router.post('/logout', logoutUserHandler);
+router.post('/logout', loginUserHandler);
 router.get('/me', getCurrentUser);
 router.post('/tour/book', createBookingHandler);
 

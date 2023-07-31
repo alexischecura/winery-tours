@@ -19,11 +19,11 @@ model User {
   password String
   active   Boolean  @default(true)
 
-  verified           Boolean?  @default(false)
-  verificationCode   String?   @unique @db.Text
-  provider           String?
-  passwordResetToken String?
-  passwordResetAt    DateTime?
+  verified             Boolean?  @default(false)
+  verificationCode     String?   @unique @db.Text
+  provider             String?
+  passwordResetToken   String?
+  passwordResetExpires DateTime?
 
   reviews    Review[]
   bookings   Booking[]
