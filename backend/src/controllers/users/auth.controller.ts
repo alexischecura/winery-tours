@@ -107,7 +107,7 @@ export const verifyEmailHandler = async (
     // Params type verification done in routes
     const verificationCode = crypto
       .createHash('sha256')
-      .update(req.params.verificationCode)
+      .update(req.params.token)
       .digest('hex');
 
     const user = await updateUser(
@@ -354,7 +354,8 @@ export const forgotPasswordHandler = async (
       }
     );
     try {
-      const url = `${envVars.ORIGIN}/api/v1/users/resetPassword/${passwordResetToken}`;
+      const url = `${envVars.ORIGIN}/api/v1/users/resetPassword/${resetToken}`;
+      console.log(url);
 
       await new Email(user, url).sendPasswordResetToken();
 
@@ -398,8 +399,10 @@ export const resetPasswordHandler = async (
   try {
     const passwordResetToken = crypto
       .createHash('sha256')
-      .update(req.params.resetToken)
+      .update(req.params.token)
       .digest('hex');
+
+    console.log(passwordResetToken);
 
     const user = await getUser({
       passwordResetToken,
@@ -407,7 +410,7 @@ export const resetPasswordHandler = async (
         gt: new Date(),
       },
     });
-
+    console.log(user);
     if (!user)
       return next(new AuthorizationError('Token is invalid or has expired.'));
 
@@ -415,7 +418,6 @@ export const resetPasswordHandler = async (
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    logoutUserHandler(req, res, next);
     await updateUser(
       { id: user.id },
       {

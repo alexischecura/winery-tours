@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import {
   changeRoleSchema,
-  codeParamsSchema,
   createUserSchema,
   forgotPasswordSchema,
   loginUserSchema,
   resetPasswordSchema,
+  tokenParamsSchema,
 } from '../schemas/user.schema';
 import { validateBody, validateParams } from '../schemas/validators';
 import {
@@ -28,21 +28,23 @@ import {
 const router = Router();
 
 router.post('/signup', validateBody(createUserSchema), createUserHandler);
+router.post('/login', validateBody(loginUserSchema), loginUserHandler);
 router.get(
-  '/verification/:code',
-  validateParams(codeParamsSchema),
+  '/verification/:token',
+  validateParams(tokenParamsSchema),
   verifyEmailHandler
 );
-router.post('/login', validateBody(loginUserSchema), loginUserHandler);
 router.post('/refresh', refreshAccessTokenHandler);
+
+// Password Forgot routes
 router.post(
   '/forgotPassword',
   validateBody(forgotPasswordSchema),
   forgotPasswordHandler
 );
-router.post(
-  '/resetPassword/:code',
-  validateParams(codeParamsSchema),
+router.patch(
+  '/resetPassword/:token',
+  validateParams(tokenParamsSchema),
   validateBody(resetPasswordSchema),
   resetPasswordHandler
 );
@@ -53,6 +55,7 @@ router.post('/logout', logoutUserHandler);
 router.get('/me', getCurrentUser);
 router.post('/tour/book', createBookingHandler);
 
+// Change Role Route
 router.post(
   '/role',
   restrictTo('ADMIN'),

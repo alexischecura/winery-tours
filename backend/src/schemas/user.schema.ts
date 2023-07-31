@@ -61,8 +61,8 @@ export const loginUserSchema = z.object({
 
 export type LoginUser = z.infer<typeof loginUserSchema>;
 
-export const codeParamsSchema = z.object({
-  code: z.string(),
+export const tokenParamsSchema = z.object({
+  token: z.string(),
 });
 
 export const forgotPasswordSchema = z.object({
