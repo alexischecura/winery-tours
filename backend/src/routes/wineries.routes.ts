@@ -3,10 +3,13 @@ import {
   createWineryHandler,
   getAllWineriesHandler,
   getWineryHandler,
-} from '../controllers/winery.controller';
+} from '../controllers/tours/winery.controller';
 import { validateBody } from '../schemas/validators';
 import { winerySchema } from '../schemas/winery.schema';
-import { authenticateUser, restrictTo } from '../controllers/auth.controller';
+import {
+  authenticateUser,
+  restrictTo,
+} from '../controllers/users/auth.controller';
 
 const router = Router();
 

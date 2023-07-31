@@ -4,7 +4,7 @@ import {
   createTourHandler,
   getAllToursHandler,
   getTourHandler,
-} from '../controllers/tour.controller';
+} from '../controllers/tours/tour.controller';
 import { validateBody } from '../schemas/validators';
 import { createTourSchema } from '../schemas/tour.schema';
 

@@ -6,14 +6,14 @@ import {
   getAllTours,
   getTour,
   getTourWithWineries,
-} from '../services/tour.service';
-import { getWinery } from '../services/winery.service';
+} from '../../services/tour.service';
+import { getWinery } from '../../services/winery.service';
 import { Prisma, TourEvent } from '@prisma/client';
 import {
   InternalServerError,
   NotFoundError,
   ValidationError,
-} from '../utils/AppError';
+} from '../../utils/AppError';
 
 export const createTourHandler = async (
   req: Request,

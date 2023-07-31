@@ -4,10 +4,9 @@ import {
   InternalServerError,
   NotFoundError,
   ValidationError,
-} from '../utils/AppError';
-import { createBooking } from '../services/user.service';
-import { getTour } from '../services/tour.service';
-import { Booking, Tour } from '@prisma/client';
+} from '../../utils/AppError';
+import { createBooking } from '../../services/user.service';
+import { getTour } from '../../services/tour.service';
 
 export const getCurrentUser = async (
   req: Request,

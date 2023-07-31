@@ -1,9 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  AuthenticationError,
-  InternalServerError,
-  ValidationError,
-} from '../utils/AppError';
+import { AuthenticationError, InternalServerError } from '../../utils/AppError';
 import { Prisma } from '@prisma/client';
 
 export const createReviewHandler = async (

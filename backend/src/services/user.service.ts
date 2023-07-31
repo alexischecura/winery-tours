@@ -21,9 +21,10 @@ export const getUser = async (
 
 export const updateUser = async (
   where: Prisma.UserWhereUniqueInput,
-  input: Prisma.UserUpdateInput
+  input: Prisma.UserUpdateInput,
+  select?: Prisma.UserSelect
 ) => {
-  return await prisma.user.update({ where, data: input });
+  return await prisma.user.update({ where, data: input, select });
 };
 
 export const signTokens = async (user: Prisma.UserCreateInput) => {

@@ -3,8 +3,8 @@ import {
   createWinery,
   getAllWineries,
   getWinery,
-} from '../services/winery.service';
-import { InternalServerError } from '../utils/AppError';
+} from '../../services/winery.service';
+import { InternalServerError } from '../../utils/AppError';
 
 export const createWineryHandler = async (
   req: Request,

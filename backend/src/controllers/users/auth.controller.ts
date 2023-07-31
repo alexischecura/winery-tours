@@ -3,24 +3,24 @@ import { Prisma, UserRole } from '@prisma/client';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 
-import { envVars } from '../configs/env.config';
-import { CreateUserType, LoginUser } from '../schemas/user.schema';
+import { envVars } from '../../configs/env.config';
+import { CreateUserType, LoginUser } from '../../schemas/user.schema';
 import {
   createUser,
   getUser,
   signTokens,
   updateUser,
-} from '../services/user.service';
+} from '../../services/user.service';
 import {
   AuthenticationError,
   AuthorizationError,
   ConflictError,
   InternalServerError,
   NotFoundError,
-} from '../utils/AppError';
-import Email from '../utils/Email';
-import { signJwt, verifyJwt } from '../utils/jwtUtils';
-import { redisClient } from '../databases/redis.db';
+} from '../../utils/AppError';
+import Email from '../../utils/Email';
+import { signJwt, verifyJwt } from '../../utils/jwtUtils';
+import { redisClient } from '../../databases/redis.db';
 
 // Cookies Configurations
 const cookiesOptions: CookieOptions = {
@@ -211,7 +211,7 @@ export const authenticateUser = async (
       access_token = req.headers.authorization.split(' ').at(1);
     }
     if (!access_token)
-      return next(new AuthenticationError('You are not logged'));
+      return next(new AuthenticationError('You are not logged.'));
 
     const decoded = verifyJwt<{ sub: string }>(
       access_token,
@@ -219,17 +219,17 @@ export const authenticateUser = async (
     );
     if (!decoded)
       return next(
-        new AuthenticationError("Invalid token or user doesn't exist")
+        new AuthenticationError("Invalid token or user doesn't exist.")
       );
 
     const session = await redisClient.get(decoded.sub);
     if (!session)
-      return next(new AuthenticationError('Invalid token or session expired'));
+      return next(new AuthenticationError('Invalid token or session expired.'));
 
     const user = await getUser({ id: JSON.parse(session).id });
 
     if (!user)
-      return next(new AuthenticationError('Invalid token or session expired'));
+      return next(new AuthenticationError('Invalid token or session expired.'));
 
     const localUser = {
       name: user.name,
@@ -241,7 +241,7 @@ export const authenticateUser = async (
     next();
   } catch (error) {
     console.error(error);
-    next(new InternalServerError('Something went wrong when authenticating'));
+    next(new InternalServerError('Something went wrong when authenticating.'));
   }
 };
 
@@ -251,7 +251,7 @@ export const refreshAccessTokenHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  const errorMessage = 'Failed to refresh access token, please login again';
+  const errorMessage = 'Failed to refresh access token, please login again.';
 
   try {
     const refresh_token = req.cookies.refresh_token;
@@ -285,7 +285,7 @@ export const refreshAccessTokenHandler = async (
   } catch (error) {
     console.error(error);
     next(
-      new InternalServerError('Something went wrong when refreshing the token')
+      new InternalServerError('Something went wrong when refreshing the token.')
     );
   }
 };
@@ -307,7 +307,135 @@ export const logoutUserHandler = async (
     });
   } catch (error) {
     console.error(error);
-    next(new InternalServerError('Something went wrong when logging out'));
+    next(new InternalServerError('Something went wrong when logging out.'));
+  }
+};
+
+// Send reset password link to email
+export const forgotPasswordHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await getUser({ email: req.body.email.toLowerCase() });
+
+    if (!user) {
+      return next(
+        new NotFoundError('There is no user with that email address.')
+      );
+    }
+
+    if (!user.verified) {
+      return next(new AuthorizationError('Please verify your email.'));
+    }
+
+    if (user.provider) {
+      return next(
+        new AuthorizationError(
+          `Please use your social accound to login (${user.provider}).`
+        )
+      );
+    }
+    const resetToken = crypto.randomBytes(32).toString('hex');
+
+    const passwordResetToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+
+    await updateUser(
+      {
+        id: user.id,
+      },
+      {
+        passwordResetToken,
+        passwordResetAt: new Date(Date.now() + 10 * 60 * 1000),
+      }
+    );
+    try {
+      const url = `${envVars.ORIGIN}/api/v1/users/resetPassword/${passwordResetToken}`;
+
+      await new Email(user, url).sendPasswordResetToken();
+
+      res.status(200).json({
+        status: 'success',
+        message: 'You will receive an email to reset your password.',
+      });
+    } catch (error) {
+      await updateUser(
+        {
+          id: user.id,
+        },
+        {
+          passwordResetToken: null,
+          passwordResetAt: null,
+        }
+      );
+      console.error(error);
+      return next(
+        new InternalServerError(
+          'Something went wrong when sending the email to reset your password.'
+        )
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    return next(
+      new InternalServerError(
+        'Something went wrong when handling the forgot password.'
+      )
+    );
+  }
+};
+
+//Reset the password
+export const resetPasswordHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const passwordResetToken = crypto
+      .createHash('sha256')
+      .update(req.params.resetToken)
+      .digest('hex');
+
+    const user = await getUser({
+      passwordResetToken,
+      passwordResetAt: {
+        gt: new Date(),
+      },
+    });
+
+    if (!user)
+      return next(new AuthorizationError('Token is invalid or has expired.'));
+
+    const { password } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    logoutUserHandler(req, res, next);
+    await updateUser(
+      { id: user.id },
+      {
+        password: hashedPassword,
+        passwordResetToken: null,
+        passwordResetAt: null,
+      }
+    );
+
+    res.status(202).json({
+      status: 'success',
+      message: 'Your password was successfully updated',
+    });
+  } catch (error) {
+    console.log(error);
+    return next(
+      new InternalServerError(
+        'Something went wrong when handling the reset password.'
+      )
+    );
   }
 };
 
@@ -322,7 +450,7 @@ export const changeRole = async (
     if (!user)
       return next(
         new NotFoundError(
-          `The user with the id ${req.body.userId} was not found`
+          `The user with the id ${req.body.userId} was not found.`
         )
       );
 
@@ -336,10 +464,12 @@ export const changeRole = async (
     );
     res.status(200).json({
       status: 'success',
-      message: `The user ${userWithNewRole.email} now have the role of ${userWithNewRole.role}`,
+      message: `The user ${userWithNewRole.email} now have the role of ${userWithNewRole.role}.`,
     });
   } catch (error) {
     console.error(error);
-    next(new InternalServerError('Something went wrong when chaging the role'));
+    next(
+      new InternalServerError('Something went wrong when changing the role.')
+    );
   }
 };

@@ -61,14 +61,42 @@ export const loginUserSchema = z.object({
 
 export type LoginUser = z.infer<typeof loginUserSchema>;
 
+export const codeParamsSchema = z.object({
+  code: z.string(),
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z
+    .string({
+      required_error: 'Please provide your email',
+      invalid_type_error: 'E-mail must be a string',
+    })
+    .max(255)
+    .email('Invalid email address'),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    password: z
+      .string({
+        required_error: 'Please provide your password',
+        invalid_type_error: 'Password must be a string',
+      })
+      .min(8, 'Password must be more than 8 characters')
+      .max(32, 'Password too long, please provide a shorter password'),
+    passwordConfirm: z.string({
+      required_error: 'Please confirm your password',
+    }),
+  })
+  .refine((user) => user.password === user.passwordConfirm, {
+    message: "Passwords don't match",
+    path: ['passwordConfirm'],
+  });
+
 export const changeRoleSchema = z.object({
   userId: z.string({
     required_error: 'Please provide the user id',
     invalid_type_error: 'Id must be a string',
   }),
   role: z.nativeEnum(UserRole),
-});
-
-export const verifyEmailSchema = z.object({
-  verificationCode: z.string(),
 });
