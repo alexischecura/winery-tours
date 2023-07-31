@@ -11,6 +11,7 @@ import {
   updateUser,
 } from '../../services/user.service';
 import { getTour } from '../../services/tour.service';
+import { getAllBookings } from '../../services/booking.service';
 
 // Get current user
 export const getCurrentUser = async (
@@ -108,6 +109,29 @@ export const createBookingHandler = async (
     console.error(error);
     next(
       new InternalServerError('Something went wrong when creating the booking')
+    );
+  }
+};
+
+// Get all bookings
+export const getAllUserBookings = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const bookings = await getAllBookings({ userId: res.locals.user.id });
+
+    res.status(200).json({
+      status: 'success',
+      data: bookings,
+    });
+  } catch (error) {
+    console.error(error);
+    return next(
+      new InternalServerError(
+        'Something went wrong when getting all user bookings'
+      )
     );
   }
 };

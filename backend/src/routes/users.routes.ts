@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   changeRoleSchema,
+  createBookingSchema,
   createUserSchema,
   forgotPasswordSchema,
   loginUserSchema,
@@ -22,40 +23,49 @@ import {
 import {
   changeRole,
   createBookingHandler,
+  getAllUserBookings,
   getCurrentUser,
 } from '../controllers/users/user.controller';
 
 const router = Router();
 
-router.post('/signup', validateBody(createUserSchema), createUserHandler);
-router.post('/login', validateBody(loginUserSchema), loginUserHandler);
-router.get(
-  '/verification/:token',
-  validateParams(tokenParamsSchema),
-  verifyEmailHandler
-);
-router.post('/refresh', refreshAccessTokenHandler);
+// Sign Up User
+router
+  .post('/signup', validateBody(createUserSchema), createUserHandler)
+  .get(
+    '/verification/:token',
+    validateParams(tokenParamsSchema),
+    verifyEmailHandler
+  );
 
-// Password Forgot routes
-router.post(
-  '/forgotPassword',
-  validateBody(forgotPasswordSchema),
-  forgotPasswordHandler
-);
-router.patch(
-  '/resetPassword/:token',
-  validateParams(tokenParamsSchema),
-  validateBody(resetPasswordSchema),
-  resetPasswordHandler
-);
+// Login User
+router
+  .post('/login', validateBody(loginUserSchema), loginUserHandler)
+  .post('/refresh', refreshAccessTokenHandler);
+
+// Password Forgot
+router
+  .post(
+    '/forgotPassword',
+    validateBody(forgotPasswordSchema),
+    forgotPasswordHandler
+  )
+  .patch(
+    '/resetPassword/:token',
+    validateParams(tokenParamsSchema),
+    validateBody(resetPasswordSchema),
+    resetPasswordHandler
+  );
 
 //Autenticated Routes
 router.use(authenticateUser);
-router.post('/logout', logoutUserHandler);
-router.get('/me', getCurrentUser);
-router.post('/tour/book', createBookingHandler);
+router
+  .post('/logout', logoutUserHandler)
+  .get('/me', getCurrentUser)
+  .post('/bookings', validateBody(createBookingSchema), createBookingHandler)
+  .get('/bookings', getAllUserBookings);
 
-// Change Role Route
+// Change Role
 router.post(
   '/role',
   restrictTo('ADMIN'),
