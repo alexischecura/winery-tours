@@ -9,7 +9,7 @@ import { winerySchema } from '../schemas/winery.schema';
 import {
   authenticateUser,
   restrictTo,
-} from '../controllers/users/auth.controller';
+} from '../controllers/auth/auth.controller';
 
 const router = Router();
 

@@ -10,7 +10,6 @@ import {
 import { validateBody, validateParams } from '../schemas/validators';
 import {
   authenticateUser,
-  changeRole,
   createUserHandler,
   forgotPasswordHandler,
   loginUserHandler,
@@ -19,10 +18,11 @@ import {
   resetPasswordHandler,
   restrictTo,
   verifyEmailHandler,
-} from '../controllers/users/auth.controller';
+} from '../controllers/auth';
 import {
-  getCurrentUser,
+  changeRole,
   createBookingHandler,
+  getCurrentUser,
 } from '../controllers/users/user.controller';
 
 const router = Router();
@@ -51,7 +51,7 @@ router.patch(
 
 //Autenticated Routes
 router.use(authenticateUser);
-router.post('/logout', loginUserHandler);
+router.post('/logout', logoutUserHandler);
 router.get('/me', getCurrentUser);
 router.post('/tour/book', createBookingHandler);
 
