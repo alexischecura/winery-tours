@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import {
-  TourWithWineries,
+  TourWithEvets,
   createTour,
   createTourEvent,
   getAllTours,
   getTour,
-  getTourWithWineries,
+  getTourWithEvents,
 } from '../../services/tour.service';
 import { getWinery } from '../../services/winery.service';
 import { Prisma, TourEvent } from '@prisma/client';
@@ -96,46 +96,48 @@ export const createTourEventHandler = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { tourId, wineryId, day, specialEvent } = req.body;
+
   try {
-    const tour: TourWithWineries = await getTourWithWineries({
-      id: req.params.id,
+    const tour: TourWithEvets = await getTourWithEvents({
+      id: tourId,
     });
 
     if (!tour) {
       return next(
         new NotFoundError(
-          `Tour with the id ${req.params.id} was not found: The event was not created`
+          `Tour with the id ${tourId} was not found, the event was not created`
         )
       );
     }
 
-    const winery = await getWinery({ id: req.body.wineryId });
+    const winery = await getWinery({ id: wineryId });
 
     if (!winery) {
       return next(
         new NotFoundError(
-          `Winery with the id ${req.body.wineryId} was not found: The event was not created`
+          `Winery with the id ${wineryId} was not found, the event was not created`
         )
       );
     }
 
-    const wineriesIdsInTour = tour.wineries.map(
+    const wineriesIdsInTour = tour.tourEvents.map(
       (event: TourEvent) => event.wineryId
     );
 
-    if (wineriesIdsInTour.includes(req.body.wineryId)) {
+    if (wineriesIdsInTour.includes(wineryId)) {
       return next(
         new ValidationError(
-          `Winery with the id ${req.body.wineryId} is alredy include in the Tour`
+          `Winery with the id ${wineryId} already is in an event in the tour`
         )
       );
     }
 
     const newTourEvent: Prisma.TourEventCreateInput = {
-      day: req.body.day,
-      specialEvent: req.body.specialEvent,
-      winery: { connect: { id: req.body.wineryId } },
-      tour: { connect: { id: req.params.id } },
+      day,
+      specialEvent,
+      winery: { connect: { id: wineryId } },
+      tour: { connect: { id: tourId } },
     };
 
     const tourEvent = await createTourEvent(newTourEvent);

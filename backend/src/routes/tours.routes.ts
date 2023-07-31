@@ -6,14 +6,24 @@ import {
   getTourHandler,
 } from '../controllers/tours/tour.controller';
 import { validateBody } from '../schemas/validators';
-import { createTourSchema } from '../schemas/tour.schema';
+import {
+  createTourEventSchema,
+  createTourSchema,
+} from '../schemas/tour.schema';
+import { authenticateUser, restrictTo } from '../controllers/auth';
 
 export const router = Router();
 
+router.get('/', getAllToursHandler).get('/:id', getTourHandler);
+
+router.use(authenticateUser);
+router.use(restrictTo('ADMIN'));
 router
   .post('/', validateBody(createTourSchema), createTourHandler)
-  .get('/', getAllToursHandler)
-  .get('/:id', getTourHandler)
-  .post('/:id/winery', createTourEventHandler);
+  .post(
+    '/createEvent',
+    validateBody(createTourEventSchema),
+    createTourEventHandler
+  );
 
 export default router;

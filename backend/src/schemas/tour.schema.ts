@@ -41,4 +41,22 @@ export const createTourSchema = z.object({
   ),
 });
 
+export const createTourEventSchema = z.object({
+  wineryId: z.string({
+    invalid_type_error: 'wineryId must be a string',
+    required_error: 'wineryId is Required',
+  }),
+  tourId: z.string({
+    invalid_type_error: 'tourId must be a string',
+    required_error: 'tourId is Required',
+  }),
+  day: z.number({
+    invalid_type_error: 'tourId must be a string',
+    required_error: 'The tour day is Required',
+  }),
+  specialEvent: z
+    .boolean({ invalid_type_error: 'specialEvent must be a boolean' })
+    .optional(),
+});
+
 export type CreateTourType = z.infer<typeof createTourSchema>;
