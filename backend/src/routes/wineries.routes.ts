@@ -13,14 +13,15 @@ import {
 
 const router = Router();
 
+router.get('/', getAllWineriesHandler).get('/:id', getWineryHandler);
+
 router.use(authenticateUser);
+router.use(restrictTo('ADMIN'));
 router.post(
   '/',
-  restrictTo('ADMIN'),
+
   validateBody(winerySchema),
   createWineryHandler
 );
-router.get('/', getAllWineriesHandler);
-router.get('/:id', getWineryHandler);
 
 export default router;
