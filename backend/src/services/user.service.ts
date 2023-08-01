@@ -45,15 +45,3 @@ export const signTokens = async (user: Prisma.UserCreateInput) => {
 
   return { access_token, refresh_token };
 };
-
-export const createBooking = async (input: Prisma.BookingCreateInput) => {
-  return (await prisma.booking.create({
-    data: input,
-  })) as Booking;
-};
-
-export const createReview = async (input: Prisma.ReviewCreateInput) => {
-  return (await prisma.review.create({
-    data: input,
-  })) as Review;
-};

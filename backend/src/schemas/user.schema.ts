@@ -117,3 +117,22 @@ export const createBookingSchema = z.object({
   }),
   tourDate: z.string().datetime({ message: 'Date must be in ISO String' }),
 });
+
+export const createReviewSchema = z.object({
+  rating: z
+    .number({
+      required_error: 'Rating is required',
+      invalid_type_error: 'Rating must be a number',
+    })
+    .max(5)
+    .min(1),
+  comment: z.string({
+    required_error: 'Comment is required',
+    invalid_type_error: 'Comment must be a string',
+  }),
+  bookingId: z.string({
+    required_error: 'bookingId is required',
+    invalid_type_error: 'bookingId must be a string',
+  }),
+});
+export type CreateReviewType = z.infer<typeof createReviewSchema>;
