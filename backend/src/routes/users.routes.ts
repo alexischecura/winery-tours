@@ -1,14 +1,16 @@
 import { Router } from 'express';
+
+import { validateBody, validateParams } from '../schemas/validators';
 import {
   changeRoleSchema,
   createBookingSchema,
+  createReviewSchema,
   createUserSchema,
   forgotPasswordSchema,
   loginUserSchema,
   resetPasswordSchema,
   tokenParamsSchema,
 } from '../schemas/user.schema';
-import { validateBody, validateParams } from '../schemas/validators';
 import {
   authenticateUser,
   createUserHandler,
@@ -22,10 +24,16 @@ import {
 } from '../controllers/auth';
 import {
   changeRole,
-  createBookingHandler,
-  getAllUserBookings,
   getCurrentUser,
 } from '../controllers/users/user.controller';
+import {
+  cancelBooking,
+  completeBooking,
+  createBookingHandler,
+  getAllUserBookings,
+  payBooking,
+} from '../controllers/users/booking.controller';
+import { createReviewHandler } from '../controllers/users/review.controller';
 
 const router = Router();
 
@@ -59,11 +67,18 @@ router
 
 //Autenticated Routes
 router.use(authenticateUser);
+router.post('/logout', logoutUserHandler).get('/me', getCurrentUser);
+
+//Booking routes
 router
-  .post('/logout', logoutUserHandler)
-  .get('/me', getCurrentUser)
   .post('/bookings', validateBody(createBookingSchema), createBookingHandler)
-  .get('/bookings', getAllUserBookings);
+  .get('/bookings', getAllUserBookings)
+  .post('/bookings/pay', payBooking)
+  .post('/bookings/complete', completeBooking)
+  .post('/bookings/cancel', cancelBooking);
+
+//Review Routes
+router.post('/reviews', validateBody(createReviewSchema), createReviewHandler);
 
 // Change Role
 router.post(

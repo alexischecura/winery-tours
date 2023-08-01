@@ -3,15 +3,8 @@ import {
   AuthenticationError,
   InternalServerError,
   NotFoundError,
-  ValidationError,
 } from '../../utils/AppError';
-import {
-  createBooking,
-  getUser,
-  updateUser,
-} from '../../services/user.service';
-import { getTour } from '../../services/tour.service';
-import { getAllBookings } from '../../services/booking.service';
+import { getUser, updateUser } from '../../services/user.service';
 
 // Get current user
 export const getCurrentUser = async (
@@ -68,70 +61,6 @@ export const changeRole = async (
     console.error(error);
     next(
       new InternalServerError('Something went wrong when changing the role.')
-    );
-  }
-};
-
-// Create a booking
-export const createBookingHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const user = res.locals.user;
-    if (!user)
-      return next(new AuthenticationError('User authentication required'));
-
-    const { tourId, tourDate } = req.body;
-
-    const tour = await getTour({ id: tourId });
-
-    if (!tour) {
-      return next(new NotFoundError(`Tour with the id ${tourId} not found`));
-    }
-
-    if (!tour.startDates.map((date) => date.toISOString()).includes(tourDate)) {
-      return next(new ValidationError('Tour Date not found in the tour'));
-    }
-
-    const booking = await createBooking({
-      tourDate,
-      user: { connect: { id: user.id } },
-      tour: { connect: { id: tourId } },
-    });
-
-    res.status(201).json({
-      status: 'success',
-      data: booking,
-    });
-  } catch (error) {
-    console.error(error);
-    next(
-      new InternalServerError('Something went wrong when creating the booking')
-    );
-  }
-};
-
-// Get all bookings
-export const getAllUserBookings = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const bookings = await getAllBookings({ userId: res.locals.user.id });
-
-    res.status(200).json({
-      status: 'success',
-      data: bookings,
-    });
-  } catch (error) {
-    console.error(error);
-    return next(
-      new InternalServerError(
-        'Something went wrong when getting all user bookings'
-      )
     );
   }
 };
