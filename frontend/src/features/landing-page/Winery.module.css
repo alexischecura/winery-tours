@@ -1,17 +1,17 @@
-.cellarImg {
+.wineryImg {
   /* width: 100%; */
   z-index: 2;
   height: 45rem;
 }
 
-.cellar {
+.winery {
   display: grid;
   max-width: 120rem;
   margin: 0 auto;
   grid-template-columns: 1fr 2fr;
 }
 
-.cellarText {
+.wineryText {
   border: 2px solid black;
   border-right: 0;
   display: flex;
@@ -20,13 +20,13 @@
   padding: 2.4rem 3.2rem;
 }
 
-.cellarList {
+.wineryList {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
 
-  & .cellarListItem {
+  & .wineryListItem {
     font-size: 2rem;
     display: flex;
     align-items: center;
@@ -52,6 +52,6 @@
   background-color: var(--color-grey-200);
 }
 
-.cellarHeading {
+.wineryHeading {
   text-align: center;
 }

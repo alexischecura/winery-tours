@@ -14,40 +14,40 @@ type Props = {
   };
 };
 
-function Cellar({ winery }: Props) {
+function Winery({ winery }: Props) {
   return (
-    <div className={styles.cellar}>
-      <div className={styles.cellarText}>
-        <h3 className={`${styles.cellarHeading} heading-tertiary`}>
+    <div className={styles.winery}>
+      <div className={styles.wineryText}>
+        <h3 className={`${styles.wineryHeading} heading-tertiary`}>
           {winery.name}
         </h3>
-        <ul className={styles.cellarList}>
-          <li className={styles.cellarListItem}>
+        <ul className={styles.wineryList}>
+          <li className={styles.wineryListItem}>
             <GiVineLeaf />
             <span>Vineyars</span>
           </li>
-          <li className={styles.cellarListItem}>
+          <li className={styles.wineryListItem}>
             <GiSpookyHouse />
-            <span>Cellar</span>
+            <span>Winery</span>
           </li>
-          <li className={styles.cellarListItem}>
+          <li className={styles.wineryListItem}>
             <GiMeal />
             <span>Restaurant</span>
           </li>
-          <li className={styles.cellarListItem}>
+          <li className={styles.wineryListItem}>
             <GiWineBottle />
             <span>Wine Tasting</span>
           </li>
         </ul>
-        <a className={styles.btn}>See more about this cellar</a>
+        <a className={styles.btn}>See more about this winery</a>
       </div>
       <img
-        className={styles.cellarImg}
+        className={styles.wineryImg}
         src={WineryImg}
-        alt='gray cellar among tall trees'
+        alt='gray winery among tall trees'
       />
     </div>
   );
 }
 
-export default Cellar;
+export default Winery;

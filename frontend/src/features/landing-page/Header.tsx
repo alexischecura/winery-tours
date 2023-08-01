@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import styles from './Header.module.css';
 import Logo from '../../ui/Logo';
 
@@ -17,8 +15,8 @@ function Header() {
             </a>
           </li>
           <li>
-            <a className={styles.mainNavLink} href='#cellars'>
-              Cellars
+            <a className={styles.mainNavLink} href='#wineries'>
+              Wineries
             </a>
           </li>
           <li>
@@ -33,7 +31,7 @@ function Header() {
           </li>
         </ul>
       </nav>
-      <ul className={styles.CtaBtnList}>
+      <ul className={styles.ctaBtnList}>
         <li>
           <a>Login</a>
         </li>
