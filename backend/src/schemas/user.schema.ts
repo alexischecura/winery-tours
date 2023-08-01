@@ -109,3 +109,11 @@ export const changeRoleSchema = z.object({
   }),
   role: z.nativeEnum(UserRole),
 });
+
+export const createBookingSchema = z.object({
+  tourId: z.string({
+    required_error: 'Please provide the tour id',
+    invalid_type_error: 'Id must be a string',
+  }),
+  tourDate: z.string().datetime({ message: 'Date must be in ISO String' }),
+});
