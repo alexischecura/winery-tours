@@ -32,5 +32,38 @@
   display: flex;
   gap: 3.2rem;
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: 700;
+
+  & li {
+    padding: 1.2rem 2rem;
+    cursor: pointer;
+  }
+}
+
+.mainNavLink {
+  border: none;
+  background: none;
+  padding-bottom: 7px;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 1.4rem;
+}
+
+.mainNavLink:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color-grey-900);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.mainNavLink:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

@@ -33,10 +33,10 @@ function Header() {
       </nav>
       <ul className={styles.ctaBtnList}>
         <li>
-          <a>Login</a>
+          <a className={styles.btnLogin}>Login</a>
         </li>
-        <li>
-          <a>Sign up</a>
+        <li className={`${styles.btnSignUp} cta-btn`}>
+          <a>Sign Up</a>
         </li>
       </ul>
     </header>

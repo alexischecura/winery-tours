@@ -52,26 +52,59 @@
 }
 
 .heroBtn {
-  text-decoration: none;
   font-size: 2rem;
-  font-weight: 600;
   padding: 1.6rem 3.2rem;
-  color: var(--color-grey-900);
-  border: 2px solid var(--color-grey-900);
-  margin-right: 1rem;
-  transition: background-color 0.3s ease;
+  color: inherit;
+  margin-right: 3rem;
 }
 
-.heroBtn:hover {
-  background-color: var(--color-grey-200);
+.explore {
+  border: none;
+  background: none;
+  text-decoration: none;
 }
 
-.heroBtn:last-child {
-  background-color: var(--color-wine-800);
-  color: var(--color-grey-100);
-  margin-right: 0;
+.explore span {
+  padding-bottom: 7px;
+  letter-spacing: 4px;
+  font-size: 1.6rem;
+  padding-right: 15px;
+  text-transform: uppercase;
 }
 
-.heroBtn:last-child:hover {
-  background-color: var(--color-wine-700);
+.explore svg {
+  transform: translateX(-8px);
+  transition: all 0.3s ease;
+}
+
+.explore:hover svg {
+  transform: translateX(0);
+}
+
+.explore:active svg {
+  transform: scale(0.9);
+}
+
+.text {
+  position: relative;
+  color: black;
+  padding-bottom: 20px;
+}
+
+.text:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.explore:hover .text:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

@@ -26,10 +26,9 @@
   --color-red-700: #b91c1c;
   --color-red-800: #991b1b;
 
-  --color-wine-800: #810020;
-  --color-wine-700: #9f1d35;
-  --color-wine-600: #b11225;
-  --color-wine-500: #ae3d57;
+  --color-wine-red-900: #810020;
+  --color-wine-red-700: #9f1d35;
+  --color-wine-white: #ffffcc;
 
   --backdrop-color: rgba(255, 255, 255, 0.1);
 
@@ -55,7 +54,7 @@ html {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Merriweather';
   line-height: 1;
   font-weight: 400;
   color: var(--color-grey-900);
@@ -105,4 +104,46 @@ body {
 
   border: none;
   cursor: pointer;
+}
+
+.cta-btn {
+  border: 2px solid var(--color-grey-900);
+  border-radius: 2px;
+  position: relative;
+  background-color: var(--color-wine-white);
+  cursor: pointer;
+  font-weight: 700;
+  z-index: 1;
+  text-decoration: none;
+  transition: 0.3s ease all;
+}
+
+.cta-btn:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: var(--color-wine-red-900);
+  z-index: -1;
+}
+
+.cta-btn:hover,
+.cta-btn:focus {
+  color: var(--color-grey-100);
+  background: none;
+}
+.cta-btn:hover:before,
+.cta-btn:focus:before {
+  transition: 0.5s all ease;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.cta-btn:active {
+  transform: scale(0.9);
 }
