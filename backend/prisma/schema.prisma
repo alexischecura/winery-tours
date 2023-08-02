@@ -102,6 +102,7 @@ model TourEvent {
 enum BookingStatus {
   RESERVED
   PAID
+  IN_PROGRESS
   COMPLETED
   CANCELLED
   ABSEND

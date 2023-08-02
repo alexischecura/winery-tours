@@ -6,6 +6,8 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']),
   PORT: z.string().regex(numberRegex).transform(Number),
   ORIGIN: z.string(),
+  CLIENT_URL: z.string(),
+
   RATE_LIMIT_TIME_IN_SECONDS: z.string().regex(numberRegex).transform(Number),
   EMAIL_USER: z.string(),
   EMAIL_PASS: z.string(),
