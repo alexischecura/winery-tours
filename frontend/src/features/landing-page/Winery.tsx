@@ -1,5 +1,4 @@
 import styles from './Winery.module.css';
-import WineryImg from '../../assets/winery-1.jpg';
 
 import {
   GiMeal,
@@ -7,12 +6,9 @@ import {
   GiVineLeaf,
   GiWineBottle,
 } from 'react-icons/gi';
+import { IWinery } from '../../services/types';
 
-type Props = {
-  winery: {
-    name: string;
-  };
-};
+type Props = { winery: IWinery };
 
 function Winery({ winery }: Props) {
   return (
@@ -43,7 +39,7 @@ function Winery({ winery }: Props) {
       </div>
       <img
         className={styles.wineryImg}
-        src={WineryImg}
+        src={winery.imageCover}
         alt='gray winery among tall trees'
       />
     </div>

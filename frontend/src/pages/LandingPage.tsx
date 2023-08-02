@@ -1,8 +1,7 @@
 import Header from '../features/landing-page/Header';
 import Hero from '../features/landing-page/Hero';
 import SubHeading from '../ui/SubHeading';
-import WineryGallery from '../features/landing-page/WineryGallery';
-import Winery from '../features/landing-page/Winery';
+import Wineries from '../features/landing-page/Wineries';
 
 const wineries = [
   {
@@ -69,11 +68,8 @@ function LandingPage() {
       <Header />
       <main>
         <Hero />
-        <SubHeading title='wineries' />
-        {wineries.map((winery) => (
-          <Winery winery={winery} key={winery.name} />
-        ))}
-        <WineryGallery images={wineImages} />
+        <SubHeading title='tours' />
+        <Wineries wineries={wineries} wineImages={wineImages} />
       </main>
     </>
   );
