@@ -35,7 +35,7 @@ function Winery({ winery }: Props) {
             <span>Wine Tasting</span>
           </li>
         </ul>
-        <a className={styles.btn}>See more about this winery</a>
+        <a className={`${styles.btn} btn`}>See more about this winery</a>
       </div>
       <img
         className={styles.wineryImg}

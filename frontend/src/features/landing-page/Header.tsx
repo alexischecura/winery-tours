@@ -31,11 +31,11 @@ function Header() {
           </li>
         </ul>
       </nav>
-      <ul className={styles.ctaBtnList}>
+      <ul className={styles.btnList}>
         <li>
-          <a className={styles.btnLogin}>Login</a>
+          <a className={`${styles.btnHeader} btn`}>Login</a>
         </li>
-        <li className={`${styles.btnSignUp} cta-btn`}>
+        <li className={`${styles.btnHeader} btn cta-btn`}>
           <a>Sign Up</a>
         </li>
       </ul>

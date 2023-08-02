@@ -9,7 +9,8 @@
   font-size: 3.2rem;
 
   & span {
-    color: var(--color-wine-500);
+    color: var(--color-wine-red-700);
+    font-weight: 800;
   }
 }
 

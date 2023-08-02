@@ -50,12 +50,22 @@
     }
   }
 }
+.ctaButtons {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
 
-.heroBtn {
+.heroBtn:link,
+.heroBtn:visited {
+  display: inline-block;
   font-size: 2rem;
+  letter-spacing: 2px;
+  text-decoration: none;
   padding: 1.6rem 3.2rem;
   color: inherit;
-  margin-right: 3rem;
+  text-transform: uppercase;
 }
 
 .explore {

@@ -18,7 +18,7 @@
   display: flex;
   gap: 3.2rem;
   font-size: 1.6rem;
-  font-weight: 600;
+  font-weight: 400;
 
   & .mainNavLink:link,
   & .mainNavLink:visited {
@@ -27,17 +27,16 @@
   }
 }
 
-.ctaBtnList {
+.btnList {
   list-style: none;
   display: flex;
-  gap: 3.2rem;
-  font-size: 1.6rem;
-  font-weight: 700;
+  align-items: center;
+  gap: 2rem;
+}
 
-  & li {
-    padding: 1.2rem 2rem;
-    cursor: pointer;
-  }
+.btnHeader {
+  padding: 1.2rem 1.8rem;
+  text-transform: uppercase;
 }
 
 .mainNavLink {

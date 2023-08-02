@@ -57,7 +57,7 @@ body {
   font-family: 'Merriweather';
   line-height: 1;
   font-weight: 400;
-  color: var(--color-grey-900);
+  color: var(--color-grey-800);
 }
 
 .container {
@@ -96,29 +96,18 @@ body {
 .btn:link,
 .btn:visited {
   display: inline-block;
-  text-decoration: none;
-  font-size: 2rem;
-  font-weight: 600;
-  padding: 1.6rem 3.2rem;
-  color: var(--color-grey-900);
-
-  border: none;
-  cursor: pointer;
-}
-
-.cta-btn {
   border: 2px solid var(--color-grey-900);
   border-radius: 2px;
-  position: relative;
-  background-color: var(--color-wine-white);
+  color: var(--color-grey-900);
+  font-size: 1.6rem;
   cursor: pointer;
-  font-weight: 700;
+  position: relative;
   z-index: 1;
-  text-decoration: none;
+
   transition: 0.3s ease all;
 }
 
-.cta-btn:before {
+.btn:before {
   transition: 0.5s all ease;
   position: absolute;
   top: 0;
@@ -127,23 +116,28 @@ body {
   bottom: 0;
   opacity: 0;
   content: '';
-  background-color: var(--color-wine-red-900);
+  background-color: var(--color-red-100);
   z-index: -1;
 }
 
-.cta-btn:hover,
-.cta-btn:focus {
-  color: var(--color-grey-100);
+.btn:hover,
+.btn:focus {
+  color: var(--color-grey-900);
   background: none;
 }
-.cta-btn:hover:before,
-.cta-btn:focus:before {
+.btn:hover:before,
+.btn:focus:before {
   transition: 0.5s all ease;
   left: 0;
   right: 0;
   opacity: 1;
 }
 
-.cta-btn:active {
+.btn:active {
   transform: scale(0.9);
+}
+
+.cta-btn {
+  background-color: var(--color-wine-red-900);
+  color: var(--color-grey-100);
 }
