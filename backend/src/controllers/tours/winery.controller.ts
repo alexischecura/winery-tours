@@ -44,7 +44,7 @@ export const getAllWineriesHandler = async (
 
     res.status(200).json({
       status: 'success',
-      wineries,
+      data: wineries,
     });
   } catch (error) {
     console.error(error);

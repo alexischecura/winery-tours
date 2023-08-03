@@ -31,7 +31,7 @@ function Wineries({ wineImages }: Props) {
       <SubHeading title='wineries' />
 
       <div className={styles.wineries}>
-        {data?.wineries.map((winery) => (
+        {data?.data.map((winery) => (
           <Winery winery={winery} key={winery.name} />
         ))}
       </div>
