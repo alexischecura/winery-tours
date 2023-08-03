@@ -1,4 +1,4 @@
-import styles from './Winery.module.css';
+import styles from './WineryLanding.module.css';
 
 import {
   GiMeal,
@@ -10,7 +10,7 @@ import { IWinery } from '../../services/types';
 
 type Props = { winery: IWinery };
 
-function Winery({ winery }: Props) {
+function WineryLanding({ winery }: Props) {
   return (
     <div className={styles.winery}>
       <div className={styles.wineryText}>
@@ -46,4 +46,4 @@ function Winery({ winery }: Props) {
   );
 }
 
-export default Winery;
+export default WineryLanding;

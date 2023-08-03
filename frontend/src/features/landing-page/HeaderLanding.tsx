@@ -1,7 +1,7 @@
-import styles from './Header.module.css';
+import styles from './HeaderLanding.module.css';
 import Logo from '../../ui/Logo';
 
-function Header() {
+function HeaderLanding() {
   return (
     <header className={styles.header}>
       <a href='#' className={styles.mainNavLogo}>
@@ -43,4 +43,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default HeaderLanding;

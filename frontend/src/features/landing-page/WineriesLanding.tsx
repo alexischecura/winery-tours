@@ -1,8 +1,8 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import styles from './Wineries.module.css';
+import styles from './WineriesLanding.module.css';
 
 import SubHeading from '../../ui/SubHeading';
-import Winery from './Winery';
+import Winery from './WineryLanding';
 import WineryGallery from './WineryGallery';
 import { getWineries } from '../../services/apiWineries';
 import { IWineriesResponse } from '../../services/types';
@@ -17,7 +17,7 @@ type Props = {
   wineImages: WineryImageType[];
 };
 
-function Wineries({ wineImages }: Props) {
+function WineriesLanding({ wineImages }: Props) {
   const { status, error, data }: UseQueryResult<IWineriesResponse, Error> =
     useQuery<IWineriesResponse, Error>({
       queryKey: ['winery'],
@@ -40,4 +40,4 @@ function Wineries({ wineImages }: Props) {
   );
 }
 
-export default Wineries;
+export default WineriesLanding;

@@ -1,11 +1,11 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { IToursResponse } from '../../services/types';
 import { getTours } from '../../services/apiTours';
-import styles from './Tours.module.css';
-import TourCard from './TourCard';
+import styles from './ToursLanding.module.css';
+import TourCard from './TourCardLanding';
 import SubHeading from '../../ui/SubHeading';
 
-function Tours() {
+function ToursLanding() {
   const { status, error, data }: UseQueryResult<IToursResponse, Error> =
     useQuery<IToursResponse, Error>({
       queryKey: ['tours'],
@@ -23,4 +23,4 @@ function Tours() {
   );
 }
 
-export default Tours;
+export default ToursLanding;

@@ -1,11 +1,11 @@
 import { ITour } from '../../services/types';
-import styles from './TourCard.module.css';
+import styles from './TourCardLanding.module.css';
 
 type Props = {
   tour: ITour;
 };
 
-function TourCard({
+function TourCardLanding({
   tour: {
     name,
     duration,
@@ -65,4 +65,5 @@ function TourCard({
   );
 }
 
-export default TourCard;
+export default TourCardLanding;
+<p></p>;

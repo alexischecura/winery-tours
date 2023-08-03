@@ -1,8 +1,8 @@
-import styles from './Hero.module.css';
+import styles from './HeroLanding.module.css';
 import heroImg1 from '../../assets/img-hero-1.jpg';
 import heroImg2 from '../../assets/img-hero-2.jpg';
 
-function Hero() {
+function HeroLanding() {
   return (
     <section className={styles.heroSection}>
       <div className={`${styles.hero}`}>
@@ -60,4 +60,4 @@ function Hero() {
   );
 }
 
-export default Hero;
+export default HeroLanding;

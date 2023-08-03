@@ -1,7 +1,7 @@
-import Header from '../features/landing-page/Header';
-import Hero from '../features/landing-page/Hero';
-import Wineries from '../features/landing-page/Wineries';
-import Tours from '../features/landing-page/Tours';
+import Header from '../features/landing-page/HeaderLanding';
+import Hero from '../features/landing-page/HeroLanding';
+import Wineries from '../features/landing-page/WineriesLanding';
+import Tours from '../features/landing-page/ToursLanding';
 
 const wineImages = [
   {
