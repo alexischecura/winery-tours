@@ -1,0 +1,9 @@
+.tours {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+.tourCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}

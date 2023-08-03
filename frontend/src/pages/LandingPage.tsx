@@ -1,13 +1,7 @@
 import Header from '../features/landing-page/Header';
 import Hero from '../features/landing-page/Hero';
-import SubHeading from '../ui/SubHeading';
 import Wineries from '../features/landing-page/Wineries';
-
-const wineries = [
-  {
-    name: 'Bodega Bianchi',
-  },
-];
+import Tours from '../features/landing-page/Tours';
 
 const wineImages = [
   {
@@ -68,8 +62,8 @@ function LandingPage() {
       <Header />
       <main>
         <Hero />
-        <SubHeading title='tours' />
-        <Wineries wineries={wineries} wineImages={wineImages} />
+        <Tours />
+        <Wineries wineImages={wineImages} />
       </main>
     </>
   );
