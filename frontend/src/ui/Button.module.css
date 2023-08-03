@@ -1,0 +1,52 @@
+.btn,
+.btn:link,
+.btn:visited {
+  display: inline-block;
+  border: 2px solid var(--color-grey-900);
+  border-radius: 2px;
+  color: var(--color-grey-900);
+  font-size: 1.6rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  transition: 0.3s ease all;
+}
+
+.btn:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: var(--color-red-100);
+  z-index: -1;
+}
+
+.btn:hover,
+.btn:focus {
+  background: none;
+}
+.btn:hover:before,
+.btn:focus:before {
+  transition: 0.5s all ease;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.btn:active {
+  transform: scale(0.9);
+}
+
+.primary {
+  background-color: var(--color-wine-red-900);
+  color: var(--color-grey-100);
+  padding: 1.2rem;
+}
+.primary:hover {
+  color: var(--color-grey-900);
+}
