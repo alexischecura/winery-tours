@@ -22,7 +22,7 @@
   --color-indigo-100: #e0e7ff;
   --color-indigo-700: #4338ca;
 
-  --color-red-100: #fee2e2;
+  --color-red-100: #dcb693;
   --color-red-700: #b91c1c;
   --color-red-800: #991b1b;
 
@@ -96,7 +96,7 @@ body {
 .btn:link,
 .btn:visited {
   display: inline-block;
-  border: 2px solid var(--color-grey-900);
+  border: 2px solid var(--color-grey-800);
   border-radius: 2px;
   color: var(--color-grey-900);
   font-size: 1.6rem;
@@ -122,7 +122,6 @@ body {
 
 .btn:hover,
 .btn:focus {
-  color: var(--color-grey-900);
   background: none;
 }
 .btn:hover:before,
@@ -140,4 +139,7 @@ body {
 .cta-btn {
   background-color: var(--color-wine-red-900);
   color: var(--color-grey-100);
+}
+.cta-btn:hover {
+  color: var(--color-grey-900);
 }
