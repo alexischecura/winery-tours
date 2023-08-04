@@ -2,12 +2,15 @@ import styles from './Button.module.css';
 
 type Props = {
   type: 'primary' | 'secondary';
+  disabled?: boolean;
   children: React.ReactNode;
 };
 
-function Button({ type, children }: Props) {
+function Button({ type, disabled = false, children }: Props) {
   return (
-    <button className={`${styles.btn} ${styles[type]}`}>{children}</button>
+    <button disabled={disabled} className={`${styles.btn} ${styles[type]}`}>
+      {children}
+    </button>
   );
 }
 

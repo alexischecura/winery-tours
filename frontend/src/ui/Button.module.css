@@ -1,6 +1,7 @@
 .btn,
 .btn:link,
 .btn:visited {
+  font-family: 'Merriweather';
   display: inline-block;
   border: 2px solid var(--color-grey-900);
   border-radius: 2px;
