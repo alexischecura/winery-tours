@@ -13,9 +13,19 @@ export interface GenericResponse {
   message: string;
 }
 
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
 export interface ILoginResponse {
   status: string;
   access_token: string;
+}
+
+export interface IErrorResponse {
+  status: string;
+  message: string;
 }
 
 export interface IWinery {
