@@ -51,12 +51,7 @@ export const createUserHandler = async (
 
     res.status(201).json({
       status: 'success',
-      data: {
-        user: {
-          name: `${newUser.firstName} ${newUser.lastName}`,
-          email: newUser.email,
-        },
-      },
+      message: 'A verification link has been sent to your email account',
     });
   } catch (error) {
     if (
