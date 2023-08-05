@@ -1,5 +1,5 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import styles from './LoginForm.module.css';
+import styles from './Form.module.css';
 import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
 import { useLogin } from './useLogin';

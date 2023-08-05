@@ -2,7 +2,7 @@ export interface SingUpUser {
   firstName: string;
   lastName: string;
   email: string;
-  natinalId: string;
+  nationalId: string;
   password: string;
   passwordConfirm: string;
 }
