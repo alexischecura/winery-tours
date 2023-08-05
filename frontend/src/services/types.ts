@@ -1,11 +1,10 @@
-export interface IUser {
-  id: string;
+export interface SingUpUser {
   firstName: string;
   lastName: string;
   email: string;
   natinalId: string;
-  role: string;
-  photo: string;
+  password: string;
+  passwordConfirm: string;
 }
 
 export interface GenericResponse {
@@ -13,22 +12,24 @@ export interface GenericResponse {
   message: string;
 }
 
-export interface ILogin {
+export interface LoginUser {
   email: string;
   password: string;
 }
 
-export interface ILoginResponse {
+export interface LoginUserResponse {
   status: string;
   access_token: string;
 }
 
-export interface IErrorResponse {
+export interface ErrorResponse {
   status: string;
+  code: string;
   message: string;
+  description: string;
 }
 
-export interface IWinery {
+export interface Winery {
   id: string;
   name: string;
   description: string;
@@ -40,12 +41,12 @@ export interface IWinery {
   updatedAt: string;
 }
 
-export interface IWineriesResponse {
+export interface WineriesResponse {
   status: string;
-  data: IWinery[];
+  data: Winery[];
 }
 
-export interface ITour {
+export interface Tour {
   id: string;
   name: string;
   duration: number;
@@ -63,7 +64,7 @@ export interface ITour {
   updatedAt: string;
 }
 
-export interface IToursResponse {
+export interface ToursResponse {
   status: string;
-  data: ITour[];
+  data: Tour[];
 }
