@@ -35,6 +35,11 @@
   color: var(--color-grey-900);
 }
 
+.btn {
+  text-decoration: none;
+  color: inherit;
+}
+
 .btnHeader {
   padding: 1.2rem 1.8rem;
   text-transform: uppercase;

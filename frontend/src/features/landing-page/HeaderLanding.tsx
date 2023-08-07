@@ -1,5 +1,6 @@
 import styles from './HeaderLanding.module.css';
 import Logo from '../../ui/Logo';
+import { Link } from 'react-router-dom';
 
 function HeaderLanding() {
   return (
@@ -32,11 +33,15 @@ function HeaderLanding() {
         </ul>
       </nav>
       <ul className={styles.btnList}>
-        <li>
-          <a className={`${styles.btnHeader} btn`}>Login</a>
+        <li className={`${styles.btnHeader} btn`}>
+          <Link to='/login' className={styles.btn}>
+            Login
+          </Link>
         </li>
         <li className={`${styles.btnHeader} btn cta-btn`}>
-          <a>Sign Up</a>
+          <Link to='/signup' className={styles.btn}>
+            Sign Up
+          </Link>
         </li>
       </ul>
     </header>

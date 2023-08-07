@@ -1,6 +1,7 @@
 import styles from './HeroLanding.module.css';
 import heroImg1 from '../../assets/img-hero-1.jpg';
 import heroImg2 from '../../assets/img-hero-2.jpg';
+import { Link } from 'react-router-dom';
 
 function HeroLanding() {
   return (
@@ -17,9 +18,9 @@ function HeroLanding() {
           </p>
           <ul className={styles.ctaButtons}>
             <li className='btn cta-btn'>
-              <a className={styles.heroBtn} href='#signup'>
+              <Link className={styles.heroBtn} to='/signup'>
                 Sign Up
-              </a>
+              </Link>
             </li>
             <li>
               <a className={styles.explore} href=''>
