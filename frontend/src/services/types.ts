@@ -1,8 +1,6 @@
 export interface SingUpUser {
-  firstName: string;
-  lastName: string;
+  fullName: string;
   email: string;
-  nationalId: string;
   password: string;
   passwordConfirm: string;
 }
@@ -10,6 +8,17 @@ export interface SingUpUser {
 export interface GenericResponse {
   status: string;
   message: string;
+}
+
+export interface ErrorForm {
+  field: string;
+  message: string;
+}
+
+export interface SingUpError extends GenericResponse {
+  code: string;
+  description: string;
+  errors: ErrorForm[];
 }
 
 export interface LoginUser {

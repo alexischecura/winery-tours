@@ -3,27 +3,27 @@ import styles from './Form.module.css';
 import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
 import { SingUpUser } from '../../services/types';
-import { useSignIn } from './useSignUp';
+import { useSignUp } from './useSignUp';
+import SpinnerMini from '../../ui/SpinnerMini';
 
 function SignUpForm() {
-  const { signUnApi, isLoading } = useSignIn();
+  const { signUnApi, isLoading, errors: serverErrors } = useSignUp();
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm<SingUpUser>();
+  console.log(serverErrors);
 
   const onSubmit: SubmitHandler<SingUpUser> = ({
-    firstName,
-    lastName,
-    nationalId,
+    fullName,
     email,
     password,
     passwordConfirm,
   }) => {
     signUnApi(
-      { firstName, lastName, nationalId, email, password, passwordConfirm },
+      { fullName, email, password, passwordConfirm },
       { onSettled: () => reset }
     );
   };
@@ -35,28 +35,15 @@ function SignUpForm() {
     >
       <FormRow
         label='First name'
-        childrenId='firstName'
-        error={errors?.firstName?.message}
+        childrenId='fullName'
+        error={errors?.fullName?.message}
       >
         <input
           className={styles.input}
-          type='firstName'
-          id='firstName'
+          type='fullName'
+          id='fullName'
           disabled={isLoading}
-          {...register('firstName', { required: 'First name is required' })}
-        />
-      </FormRow>
-      <FormRow
-        label='Last Name'
-        childrenId='lastName'
-        error={errors?.lastName?.message}
-      >
-        <input
-          className={styles.input}
-          type='lastName'
-          id='lastName'
-          disabled={isLoading}
-          {...register('lastName', { required: 'Last name is required' })}
+          {...register('fullName', { required: 'Full name is required' })}
         />
       </FormRow>
       <FormRow
@@ -73,19 +60,6 @@ function SignUpForm() {
         />
       </FormRow>
       <FormRow
-        label='National ID'
-        childrenId='nationalId'
-        error={errors?.nationalId?.message}
-      >
-        <input
-          className={styles.input}
-          type='nationalId'
-          id='nationalId'
-          disabled={isLoading}
-          {...register('nationalId', { required: 'Natinal ID is required' })}
-        />
-      </FormRow>
-      <FormRow
         label='Password'
         childrenId='password'
         error={errors?.password?.message}
@@ -94,6 +68,7 @@ function SignUpForm() {
           className={styles.input}
           type='password'
           id='password'
+          min='8'
           disabled={isLoading}
           {...register('password', { required: 'Password is required' })}
         />
@@ -105,16 +80,17 @@ function SignUpForm() {
       >
         <input
           className={styles.input}
-          type='passwordConfirm'
+          type='password'
           id='passwordConfirm'
           disabled={isLoading}
+          min='8'
           {...register('passwordConfirm', {
             required: 'Confirm your password',
           })}
         />
       </FormRow>
       <Button type='primary' disabled={isLoading}>
-        Sign Up
+        {isLoading ? <SpinnerMini color='white' /> : 'Sign Up'}
       </Button>
     </form>
   );
