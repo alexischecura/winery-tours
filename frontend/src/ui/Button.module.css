@@ -23,7 +23,7 @@
   bottom: 0;
   opacity: 0;
   content: '';
-  background-color: var(--color-red-100);
+  background-color: var(--color-golden-600);
   z-index: -1;
 }
 
@@ -46,7 +46,7 @@
 .primary {
   background-color: var(--color-wine-red-900);
   color: var(--color-grey-100);
-  padding: 1.2rem;
+  height: 4.4rem;
 }
 .primary:hover {
   color: var(--color-grey-900);
