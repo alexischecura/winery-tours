@@ -1,34 +1,19 @@
-export interface SingUpUser {
-  fullName: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}
-
 export interface GenericResponse {
   status: string;
-  message: string;
+  message?: string;
 }
 
-export interface ErrorForm {
+export interface FieldError {
   field: string;
   message: string;
 }
 
-export interface SingUpError extends GenericResponse {
+export interface FormError {
+  status: string;
+  message: string;
   code: string;
   description: string;
-  errors: ErrorForm[];
-}
-
-export interface LoginUser {
-  email: string;
-  password: string;
-}
-
-export interface LoginUserResponse {
-  status: string;
-  access_token: string;
+  errors: FieldError[];
 }
 
 export interface ErrorResponse {

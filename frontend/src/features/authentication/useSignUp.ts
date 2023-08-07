@@ -3,14 +3,20 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { signUpUser } from '../../services/apiAuth';
-import { SingUpUser, SingUpError } from '../../services/types';
+import { FormError } from '../../types/types';
+import { SingUpUserType } from '../../types/userTypes';
 
 export function useSignUp() {
   const navigate = useNavigate();
-  const [errors, setErrors] = useState<SingUpError | null>(null);
+  const [errors, setErrors] = useState<FormError | null>(null);
 
   const { mutate: signUnApi, isLoading } = useMutation({
-    mutationFn: ({ fullName, email, password, passwordConfirm }: SingUpUser) =>
+    mutationFn: ({
+      fullName,
+      email,
+      password,
+      passwordConfirm,
+    }: SingUpUserType) =>
       signUpUser({
         fullName,
         email,
@@ -20,7 +26,7 @@ export function useSignUp() {
     onSuccess: () => {
       navigate('/verification', { replace: true });
     },
-    onError: (err: SingUpError) => {
+    onError: (err: FormError) => {
       setErrors(err);
       toast.error(err.message);
     },

@@ -1,9 +1,9 @@
+import { GenericResponse, ErrorResponse } from '../types/types';
 import {
-  SingUpUser,
   LoginUserResponse,
-  GenericResponse,
-  ErrorResponse,
-} from './types';
+  SignUpUserResponse,
+  SingUpUserType,
+} from '../types/userTypes';
 
 const API_AUTH_URL = 'http://127.0.0.1:3000/api/v1/users';
 
@@ -43,35 +43,32 @@ async function fetchApi<T>(
   }
 }
 
-export const signUpUser = async (
-  credentials: SingUpUser
-): Promise<GenericResponse> => {
-  return fetchApi<GenericResponse>(AuthUrls.SIGNUP, Methods.POST, credentials);
+export const signUpUser = async (credentials: SingUpUserType) => {
+  return fetchApi<SignUpUserResponse>(
+    AuthUrls.SIGNUP,
+    Methods.POST,
+    credentials
+  );
 };
 
-export const loginUser = async (
-  email: string,
-  password: string
-): Promise<LoginUserResponse> => {
+export const loginUser = async (email: string, password: string) => {
   return fetchApi<LoginUserResponse>(AuthUrls.LOGIN, Methods.POST, {
     email,
     password,
   });
 };
 
-export const verificateUser = async (
-  verificationCode: string
-): Promise<GenericResponse> => {
+export const verificateUser = async (verificationCode: string) => {
   return fetchApi<GenericResponse>(
     `${AuthUrls.VERIFICATION}/${verificationCode}`,
     Methods.POST
   );
 };
 
-export const logoutUser = async (): Promise<GenericResponse> => {
+export const logoutUser = async () => {
   return fetchApi<GenericResponse>(AuthUrls.LOGOUT, Methods.POST);
 };
 
-export const getMe = async (): Promise<GenericResponse> => {
+export const getMe = async () => {
   return fetchApi<GenericResponse>(AuthUrls.ME, Methods.GET);
 };

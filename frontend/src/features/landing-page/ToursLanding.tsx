@@ -1,13 +1,13 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { IToursResponse } from '../../services/types';
+import { ToursResponse } from '../../types/types';
 import { getTours } from '../../services/apiTours';
 import styles from './ToursLanding.module.css';
 import TourCard from './TourCardLanding';
 import SubHeading from '../../ui/SubHeading';
 
 function ToursLanding() {
-  const { status, error, data }: UseQueryResult<IToursResponse, Error> =
-    useQuery<IToursResponse, Error>({
+  const { status, error, data }: UseQueryResult<ToursResponse, Error> =
+    useQuery<ToursResponse, Error>({
       queryKey: ['tours'],
       queryFn: getTours,
     });

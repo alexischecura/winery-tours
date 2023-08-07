@@ -3,8 +3,8 @@ import styles from './Form.module.css';
 import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
 import { useLogin } from './useLogin';
-import { LoginUser } from '../../services/types';
 import SpinnerMini from '../../ui/SpinnerMini';
+import { LoginUserType } from '../../types/userTypes';
 
 function LoginForm() {
   const { loginApi, isLoading } = useLogin();
@@ -13,9 +13,9 @@ function LoginForm() {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<LoginUser>();
+  } = useForm<LoginUserType>();
 
-  const onSubmit: SubmitHandler<LoginUser> = ({ email, password }) => {
+  const onSubmit: SubmitHandler<LoginUserType> = ({ email, password }) => {
     loginApi({ email, password }, { onSettled: () => reset });
   };
 

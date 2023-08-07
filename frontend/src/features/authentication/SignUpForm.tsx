@@ -1,10 +1,11 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './Form.module.css';
 import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
-import { SingUpUser } from '../../services/types';
 import { useSignUp } from './useSignUp';
 import SpinnerMini from '../../ui/SpinnerMini';
+import { singUpUserSchema, SingUpUserType } from '../../types/userTypes';
 
 function SignUpForm() {
   const { signUnApi, isLoading, errors: serverErrors } = useSignUp();
@@ -13,10 +14,12 @@ function SignUpForm() {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<SingUpUser>();
+  } = useForm<SingUpUserType>({
+    resolver: zodResolver(singUpUserSchema),
+  });
   console.log(serverErrors);
 
-  const onSubmit: SubmitHandler<SingUpUser> = ({
+  const onSubmit: SubmitHandler<SingUpUserType> = ({
     fullName,
     email,
     password,
@@ -43,7 +46,7 @@ function SignUpForm() {
           type='fullName'
           id='fullName'
           disabled={isLoading}
-          {...register('fullName', { required: 'Full name is required' })}
+          {...register('fullName')}
         />
       </FormRow>
       <FormRow
@@ -56,7 +59,7 @@ function SignUpForm() {
           type='email'
           id='email'
           disabled={isLoading}
-          {...register('email', { required: 'Email is required' })}
+          {...register('email')}
         />
       </FormRow>
       <FormRow
@@ -70,7 +73,7 @@ function SignUpForm() {
           id='password'
           min='8'
           disabled={isLoading}
-          {...register('password', { required: 'Password is required' })}
+          {...register('password')}
         />
       </FormRow>
       <FormRow
@@ -84,9 +87,7 @@ function SignUpForm() {
           id='passwordConfirm'
           disabled={isLoading}
           min='8'
-          {...register('passwordConfirm', {
-            required: 'Confirm your password',
-          })}
+          {...register('passwordConfirm')}
         />
       </FormRow>
       <Button type='primary' disabled={isLoading}>

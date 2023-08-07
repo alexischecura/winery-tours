@@ -1,8 +1,8 @@
-import { ITour } from '../../services/types';
+import { Tour } from '../../types/types';
 import styles from './TourCardLanding.module.css';
 
 type Props = {
-  tour: ITour;
+  tour: Tour;
 };
 
 function TourCardLanding({

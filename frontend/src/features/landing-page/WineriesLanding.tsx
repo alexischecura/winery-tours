@@ -5,7 +5,7 @@ import SubHeading from '../../ui/SubHeading';
 import Winery from './WineryLanding';
 import WineryGallery from './WineryGallery';
 import { getWineries } from '../../services/apiWineries';
-import { IWineriesResponse } from '../../services/types';
+import { WineriesResponse } from '../../types/types';
 
 type WineryImageType = {
   id: string;
@@ -18,8 +18,8 @@ type Props = {
 };
 
 function WineriesLanding({ wineImages }: Props) {
-  const { status, error, data }: UseQueryResult<IWineriesResponse, Error> =
-    useQuery<IWineriesResponse, Error>({
+  const { status, error, data }: UseQueryResult<WineriesResponse, Error> =
+    useQuery<WineriesResponse, Error>({
       queryKey: ['winery'],
       queryFn: getWineries,
     });

@@ -6,9 +6,9 @@ import {
   GiVineLeaf,
   GiWineBottle,
 } from 'react-icons/gi';
-import { IWinery } from '../../services/types';
+import { Winery } from '../../types/types';
 
-type Props = { winery: IWinery };
+type Props = { winery: Winery };
 
 function WineryLanding({ winery }: Props) {
   return (
