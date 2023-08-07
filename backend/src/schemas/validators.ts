@@ -9,12 +9,13 @@ export const validateBody =
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const errors = error.errors.map((err: z.ZodIssue) => ({
-          field: err.path.at(0),
-          message: err.message,
+        const fields = error.errors.map((err: z.ZodIssue) => ({
+          [err.path.at(0) || 'error']: {
+            message: err.message,
+          },
         }));
         next(
-          new ValidationError('Error validating the data from body', errors)
+          new ValidationError('Error validating the data from body', fields)
         );
       }
       next(

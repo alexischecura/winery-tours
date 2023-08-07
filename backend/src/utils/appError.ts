@@ -25,17 +25,17 @@ export abstract class AppError extends Error {
   public readonly statusCode: number;
   public readonly code: ErrorCode;
   public readonly description: string;
-  public readonly errors: object[] | undefined;
+  public readonly fields: object[] | undefined;
 
   constructor(
     public readonly message: string,
-    errors: object[] | undefined = undefined,
+    fields: object[] | undefined = undefined,
     statusCode = HttpStatus.INTERNAL_SERVER_ERROR,
     code = ErrorCode.GENERIC_ERROR,
     description = 'An error occurred.'
   ) {
     super(message);
-    this.errors = errors;
+    this.fields = fields;
     this.statusCode = statusCode;
     this.code = code;
     this.description = description;
@@ -46,12 +46,12 @@ export abstract class AppError extends Error {
 }
 
 export class ValidationError extends AppError {
-  constructor(message: string, errors: object[] | undefined = undefined) {
+  constructor(message: string, fields: object[] | undefined = undefined) {
     const statusCode = HttpStatus.BAD_REQUEST;
     const code = ErrorCode.VALIDATION_ERROR;
     const description = 'Validation error.';
 
-    super(message, errors, statusCode, code, description);
+    super(message, fields, statusCode, code, description);
   }
 }
 
