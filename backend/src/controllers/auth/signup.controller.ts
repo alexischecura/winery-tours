@@ -20,7 +20,7 @@ export const createUserHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { firstName, lastName, nationalId, email, password } = req.body;
+    const { fullName, email, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -32,9 +32,7 @@ export const createUserHandler = async (
 
     // Create new user
     const newUser = await createUser({
-      firstName,
-      lastName,
-      nationalId,
+      fullName,
       email: email.toLowerCase(),
       password: hashedPassword,
       verificationCode,
