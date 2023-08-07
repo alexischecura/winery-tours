@@ -1,0 +1,25 @@
+@keyframes rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.spinnerMini {
+  width: 2.4rem;
+  height: 2.4rem;
+  animation: rotate 1.5s infinite linear;
+}
+.wine {
+  fill: var(--color-wine-red-900);
+}
+.golden {
+  fill: var(--color-golden-600);
+}
+
+.white {
+  fill: var(--color-grey-100);
+}
+
+.black {
+  fill: var(--color-grey-900);
+}

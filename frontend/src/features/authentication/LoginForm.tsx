@@ -4,6 +4,7 @@ import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
 import { useLogin } from './useLogin';
 import { LoginUser } from '../../services/types';
+import SpinnerMini from '../../ui/SpinnerMini';
 
 function LoginForm() {
   const { loginApi, isLoading } = useLogin();
@@ -52,7 +53,7 @@ function LoginForm() {
         />
       </FormRow>
       <Button type='primary' disabled={isLoading}>
-        Log In
+        {isLoading ? <SpinnerMini color='white' /> : 'Log In'}
       </Button>
     </form>
   );
