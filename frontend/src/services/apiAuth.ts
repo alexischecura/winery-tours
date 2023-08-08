@@ -58,7 +58,7 @@ export const loginUser = async (email: string, password: string) => {
   });
 };
 
-export const verificateUser = async (verificationCode: string) => {
+export const verifyUser = async (verificationCode: string) => {
   return fetchApi<GenericResponse>(
     `${AuthUrls.VERIFICATION}/${verificationCode}`,
     Methods.POST

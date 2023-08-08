@@ -1,6 +1,6 @@
 export interface GenericResponse {
   status: string;
-  message?: string;
+  message: string;
 }
 
 export interface FieldError {

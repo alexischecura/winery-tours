@@ -16,12 +16,14 @@ export function useSignUp() {
       email,
       password,
       passwordConfirm,
+      termsAccepted,
     }: SingUpUserType) =>
       signUpUser({
         fullName,
         email,
         password,
         passwordConfirm,
+        termsAccepted,
       }),
     onSuccess: () => {
       navigate('/verification', { replace: true });

@@ -24,9 +24,10 @@ function SignUpForm() {
     email,
     password,
     passwordConfirm,
+    termsAccepted,
   }) => {
     signUnApi(
-      { fullName, email, password, passwordConfirm },
+      { fullName, email, password, passwordConfirm, termsAccepted },
       { onSettled: () => reset }
     );
   };
@@ -90,6 +91,27 @@ function SignUpForm() {
           {...register('passwordConfirm')}
         />
       </FormRow>
+      <div className={styles.terms}>
+        <div className={styles.termsInput}>
+          <input
+            type='checkbox'
+            id='terms'
+            className={styles.termsCheckbox}
+            {...register('termsAccepted')}
+          />
+          <label htmlFor='terms'>
+            I agree to the{' '}
+            <a href='#' className={styles.termsLink}>
+              terms & conditions
+            </a>
+          </label>
+        </div>
+        {errors?.termsAccepted?.message && (
+          <span className={styles.termsError}>
+            {errors?.termsAccepted?.message}
+          </span>
+        )}
+      </div>
       <Button type='primary' disabled={isLoading}>
         {isLoading ? <SpinnerMini color='white' /> : 'Sign Up'}
       </Button>

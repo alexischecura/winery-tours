@@ -18,6 +18,9 @@ export const singUpUserSchema = z
       .min(8, 'Password must be at least 8 characters')
       .max(32, 'Password must be less than 32 characters'),
     passwordConfirm: z.string().min(1, 'Please confirm your password'),
+    termsAccepted: z.literal(true, {
+      errorMap: () => ({ message: 'You must accept Terms and Conditions' }),
+    }),
   })
   .refine((user) => user.password === user.passwordConfirm, {
     path: ['passwordConfirm'],
