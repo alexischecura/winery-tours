@@ -64,7 +64,7 @@ export const authenticateUser = async (
       return next(new AuthenticationError('Invalid token or session expired.'));
 
     const localUser = {
-      name: `${user.firstName} ${user.lastName}`,
+      fullName: user.fullName,
       email: user.email,
       id: user.id,
       role: user.role,
