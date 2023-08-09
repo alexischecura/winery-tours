@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage';
 import DashboardAdmin from './pages/DashboardAdmin';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Verification from './pages/Verification';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,9 @@ function App() {
           <Route path='/dashboard' element={<DashboardAdmin />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route path='/verification' element={<Verification />}>
+            <Route path=':verificationCode' element={<Verification />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
       <Toaster />

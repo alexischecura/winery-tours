@@ -35,13 +35,18 @@ export const loginUserSchema = z.object({
     .email('Invalid email address'),
   password: z
     .string()
-    .min(1, 'Please provide a password')
+    .min(1, 'Please provide your password')
     .min(8, 'Password must be at least 8 characters')
     .max(32, 'Password must be less than 32 characters'),
 });
 
+export const verifyUserSchema = z.object({
+  verificationCode: z.string().min(1, 'Please provide the code'),
+});
+
 export type SingUpUserType = z.infer<typeof singUpUserSchema>;
 export type LoginUserType = z.infer<typeof loginUserSchema>;
+export type VerifyUserType = z.infer<typeof verifyUserSchema>;
 
 export interface SignUpUserResponse {
   status: string;
