@@ -4,7 +4,8 @@ import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
 import { useLogin } from './useLogin';
 import SpinnerMini from '../../ui/SpinnerMini';
-import { LoginUserType } from '../../types/userTypes';
+import { LoginUserType, loginUserSchema } from '../../types/userTypes';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 function LoginForm() {
   const { loginApi, isLoading } = useLogin();
@@ -13,7 +14,7 @@ function LoginForm() {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<LoginUserType>();
+  } = useForm<LoginUserType>({ resolver: zodResolver(loginUserSchema) });
 
   const onSubmit: SubmitHandler<LoginUserType> = ({ email, password }) => {
     loginApi({ email, password }, { onSettled: () => reset });
@@ -35,7 +36,7 @@ function LoginForm() {
           id='email'
           autoComplete='username'
           disabled={isLoading}
-          {...register('email', { required: 'Email is required' })}
+          {...register('email')}
         />
       </FormRow>
       <FormRow
@@ -49,7 +50,7 @@ function LoginForm() {
           id='password'
           autoComplete='username'
           disabled={isLoading}
-          {...register('password', { required: 'Password is required' })}
+          {...register('password')}
         />
       </FormRow>
       <Button type='primary' disabled={isLoading}>
