@@ -17,7 +17,6 @@ function SignUpForm() {
   } = useForm<SingUpUserType>({
     resolver: zodResolver(singUpUserSchema),
   });
-  console.log(serverErrors);
 
   const onSubmit: SubmitHandler<SingUpUserType> = ({
     fullName,
@@ -38,7 +37,7 @@ function SignUpForm() {
       onSubmit={(e) => void handleSubmit(onSubmit)(e)}
     >
       <FormRow
-        label='First name'
+        label='Full name'
         childrenId='fullName'
         error={errors?.fullName?.message}
       >

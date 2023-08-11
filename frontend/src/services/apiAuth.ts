@@ -59,9 +59,11 @@ export const loginUser = async (email: string, password: string) => {
 };
 
 export const verifyUser = async (verificationCode: string) => {
+  console.log(verificationCode);
+  console.log(`${AuthUrls.VERIFICATION}/${verificationCode}`);
   return fetchApi<GenericResponse>(
     `${AuthUrls.VERIFICATION}/${verificationCode}`,
-    Methods.POST
+    Methods.GET
   );
 };
 

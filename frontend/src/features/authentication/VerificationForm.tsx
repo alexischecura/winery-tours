@@ -21,7 +21,8 @@ function VerificationForm() {
 
   useEffect(() => {
     if (verificationCode) {
-      reset({ verificationCode });
+      reset({verificationCode})
+      verifyApi(verificationCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
