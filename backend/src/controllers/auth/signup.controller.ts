@@ -38,7 +38,7 @@ export const createUserHandler = async (
       verificationCode,
     });
 
-    const verificationUrl = `${envVars.ORIGIN}/api/v1/users/verification/${verifyCode}`;
+    const verificationUrl = `${envVars.ORIGIN}/verification/${verifyCode}`;
     try {
       await new Email(newUser, verificationUrl).sendVerificationCode();
     } catch (error) {

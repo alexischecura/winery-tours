@@ -8,7 +8,7 @@ const globalErrorHandler = (
   next: NextFunction
 ) => {
   if (error instanceof AppError) {
-    const { statusCode, status, message, code, description, errors } = error;
+    const { statusCode, status, message, code, description, fields } = error;
 
     // Send status code and error message to the client
     const respJson = {
@@ -16,7 +16,7 @@ const globalErrorHandler = (
       code,
       message,
       description,
-      errors,
+      fields,
     };
     res.status(statusCode).json(respJson);
   } else {

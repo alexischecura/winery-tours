@@ -23,7 +23,7 @@ app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: envVars.CLIENT_URL,
+    origin: envVars.ORIGIN,
     credentials: true,
   })
 );
