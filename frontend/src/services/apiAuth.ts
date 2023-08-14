@@ -1,25 +1,26 @@
-import { GenericResponse, ErrorResponse } from '../types/types';
+import { GenericResponse, ErrorResponse } from "../types/types";
 import {
   LoginUserResponse,
   SignUpUserResponse,
   SingUpUserType,
-} from '../types/userTypes';
+  UserResponse,
+} from "../types/userTypes";
 
-const API_AUTH_URL = 'http://127.0.0.1:3000/api/v1/users';
+const API_AUTH_URL = "http://127.0.0.1:3000/api/v1/users";
 
 enum AuthUrls {
   SIGNUP = `${API_AUTH_URL}/signup`,
   LOGIN = `${API_AUTH_URL}/login`,
   LOGOUT = `${API_AUTH_URL}/logout`,
   VERIFICATION = `${API_AUTH_URL}/verification`,
-  ME = `${API_AUTH_URL}/me`,
+  CURRENT_USER = `${API_AUTH_URL}/me`,
 }
 
 enum Methods {
-  GET = 'GET',
-  POST = 'POST',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
+  GET = "GET",
+  POST = "POST",
+  PATCH = "PATCH",
+  DELETE = "DELETE",
 }
 
 async function fetchApi<T>(
@@ -29,13 +30,17 @@ async function fetchApi<T>(
 ): Promise<T> {
   const res = await fetch(url, {
     method,
+    credentials: "same-origin",
     headers: {
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
 
   if (res.ok) {
+    console.log(res.headers.get("Set-Cookie"));
+    console.log(document.cookie);
     return (await res.json()) as T;
   } else {
     const data = (await res.json()) as ErrorResponse;
@@ -59,8 +64,6 @@ export const loginUser = async (email: string, password: string) => {
 };
 
 export const verifyUser = async (verificationCode: string) => {
-  console.log(verificationCode);
-  console.log(`${AuthUrls.VERIFICATION}/${verificationCode}`);
   return fetchApi<GenericResponse>(
     `${AuthUrls.VERIFICATION}/${verificationCode}`,
     Methods.GET
@@ -71,6 +74,6 @@ export const logoutUser = async () => {
   return fetchApi<GenericResponse>(AuthUrls.LOGOUT, Methods.POST);
 };
 
-export const getMe = async () => {
-  return fetchApi<GenericResponse>(AuthUrls.ME, Methods.GET);
+export const getCurrentUser = async () => {
+  return fetchApi<UserResponse>(AuthUrls.CURRENT_USER, Methods.GET);
 };
