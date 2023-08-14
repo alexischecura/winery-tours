@@ -1,11 +1,11 @@
-import { useForm, type SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import styles from './Form.module.css';
-import FormRow from '../../ui/FormRow';
-import Button from '../../ui/Button';
-import { useSignUp } from './useSignUp';
-import SpinnerMini from '../../ui/SpinnerMini';
-import { singUpUserSchema, SingUpUserType } from '../../types/userTypes';
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import styles from "./Form.module.css";
+import FormRow from "../../ui/FormRow";
+import Button from "../../ui/Button";
+import { useSignUp } from "./useSignUp";
+import SpinnerMini from "../../ui/SpinnerMini";
+import { singUpUserSchema, SingUpUserType } from "../../types/userTypes";
 
 function SignUpForm() {
   const { signUnApi, isLoading, errors: serverErrors } = useSignUp();
@@ -18,17 +18,8 @@ function SignUpForm() {
     resolver: zodResolver(singUpUserSchema),
   });
 
-  const onSubmit: SubmitHandler<SingUpUserType> = ({
-    fullName,
-    email,
-    password,
-    passwordConfirm,
-    termsAccepted,
-  }) => {
-    signUnApi(
-      { fullName, email, password, passwordConfirm, termsAccepted },
-      { onSettled: () => reset }
-    );
+  const onSubmit: SubmitHandler<SingUpUserType> = (signUpUser) => {
+    signUnApi(signUpUser, { onSettled: () => reset });
   };
 
   return (
@@ -37,70 +28,70 @@ function SignUpForm() {
       onSubmit={(e) => void handleSubmit(onSubmit)(e)}
     >
       <FormRow
-        label='Full name'
-        childrenId='fullName'
+        label="Full name"
+        childrenId="fullName"
         error={errors?.fullName?.message}
       >
         <input
           className={styles.input}
-          type='fullName'
-          id='fullName'
+          type="fullName"
+          id="fullName"
           disabled={isLoading}
-          {...register('fullName')}
+          {...register("fullName")}
         />
       </FormRow>
       <FormRow
-        label='Email address'
-        childrenId='email'
+        label="Email address"
+        childrenId="email"
         error={errors?.email?.message}
       >
         <input
           className={styles.input}
-          type='email'
-          id='email'
+          type="email"
+          id="email"
           disabled={isLoading}
-          {...register('email')}
+          {...register("email")}
         />
       </FormRow>
       <FormRow
-        label='Password'
-        childrenId='password'
+        label="Password"
+        childrenId="password"
         error={errors?.password?.message}
       >
         <input
           className={styles.input}
-          type='password'
-          id='password'
-          min='8'
+          type="password"
+          id="password"
+          min="8"
           disabled={isLoading}
-          {...register('password')}
+          {...register("password")}
         />
       </FormRow>
       <FormRow
-        label='Password Confirm'
-        childrenId='passwordConfirm'
+        label="Password Confirm"
+        childrenId="passwordConfirm"
         error={errors?.passwordConfirm?.message}
       >
         <input
           className={styles.input}
-          type='password'
-          id='passwordConfirm'
+          type="password"
+          id="passwordConfirm"
           disabled={isLoading}
-          min='8'
-          {...register('passwordConfirm')}
+          min="8"
+          {...register("passwordConfirm")}
         />
       </FormRow>
       <div className={styles.terms}>
         <div className={styles.termsInput}>
           <input
-            type='checkbox'
-            id='terms'
+            type="checkbox"
+            id="terms"
             className={styles.termsCheckbox}
-            {...register('termsAccepted')}
+            {...register("termsAccepted")}
           />
-          <label htmlFor='terms'>
-            I agree to the{' '}
-            <a href='#' className={styles.termsLink}>
+          <label htmlFor="terms">
+            I agree to the{" "}
+            <a href="#" className={styles.termsLink}>
               terms & conditions
             </a>
           </label>
@@ -111,8 +102,8 @@ function SignUpForm() {
           </span>
         )}
       </div>
-      <Button type='primary' disabled={isLoading}>
-        {isLoading ? <SpinnerMini color='white' /> : 'Sign Up'}
+      <Button type="primary" disabled={isLoading}>
+        {isLoading ? <SpinnerMini color="white" /> : "Sign Up"}
       </Button>
     </form>
   );
