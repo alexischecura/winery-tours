@@ -40,7 +40,7 @@ function WineryLanding({ winery }: Props) {
       <img
         className={styles.wineryImg}
         src={winery.imageCover}
-        alt='gray winery among tall trees'
+        alt="gray winery among tall trees"
       />
     </div>
   );

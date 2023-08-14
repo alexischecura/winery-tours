@@ -1,11 +1,11 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import styles from "./Form.module.css";
-import FormRow from "../../ui/FormRow";
-import Button from "../../ui/Button";
-import { useSignUp } from "./useSignUp";
-import SpinnerMini from "../../ui/SpinnerMini";
-import { singUpUserSchema, SingUpUserType } from "../../types/userTypes";
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import styles from './Form.module.css';
+import FormRow from '../../ui/FormRow';
+import Button from '../../ui/Button';
+import { useSignUp } from './useSignUp';
+import SpinnerMini from '../../ui/SpinnerMini';
+import { singUpUserSchema, SingUpUserType } from '../../types/userTypes';
 
 function SignUpForm() {
   const { signUnApi, isLoading, errors: serverErrors } = useSignUp();
@@ -37,7 +37,7 @@ function SignUpForm() {
           type="fullName"
           id="fullName"
           disabled={isLoading}
-          {...register("fullName")}
+          {...register('fullName')}
         />
       </FormRow>
       <FormRow
@@ -50,7 +50,7 @@ function SignUpForm() {
           type="email"
           id="email"
           disabled={isLoading}
-          {...register("email")}
+          {...register('email')}
         />
       </FormRow>
       <FormRow
@@ -64,7 +64,7 @@ function SignUpForm() {
           id="password"
           min="8"
           disabled={isLoading}
-          {...register("password")}
+          {...register('password')}
         />
       </FormRow>
       <FormRow
@@ -78,7 +78,7 @@ function SignUpForm() {
           id="passwordConfirm"
           disabled={isLoading}
           min="8"
-          {...register("passwordConfirm")}
+          {...register('passwordConfirm')}
         />
       </FormRow>
       <div className={styles.terms}>
@@ -87,10 +87,10 @@ function SignUpForm() {
             type="checkbox"
             id="terms"
             className={styles.termsCheckbox}
-            {...register("termsAccepted")}
+            {...register('termsAccepted')}
           />
           <label htmlFor="terms">
-            I agree to the{" "}
+            I agree to the{' '}
             <a href="#" className={styles.termsLink}>
               terms & conditions
             </a>
@@ -103,7 +103,7 @@ function SignUpForm() {
         )}
       </div>
       <Button type="primary" disabled={isLoading}>
-        {isLoading ? <SpinnerMini color="white" /> : "Sign Up"}
+        {isLoading ? <SpinnerMini color="white" /> : 'Sign Up'}
       </Button>
     </form>
   );

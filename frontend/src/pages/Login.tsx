@@ -7,7 +7,7 @@ function Login() {
   return (
     <main className={styles.form}>
       <Logo />
-      <Heading type='h3'>Login in your account</Heading>
+      <Heading type="h3">Login in your account</Heading>
       <LoginForm />
     </main>
   );

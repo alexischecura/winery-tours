@@ -1,14 +1,14 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Toaster } from "react-hot-toast";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Toaster } from 'react-hot-toast';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import LandingPage from "./pages/LandingPage";
-import DashboardAdmin from "./pages/DashboardAdmin";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import Verification from "./pages/Verification";
-import ProtectedRoute from "./features/authentication/ProtectedRoute";
+import LandingPage from './pages/LandingPage';
+import DashboardAdmin from './pages/DashboardAdmin';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import Verification from './pages/Verification';
+import ProtectedRoute from './features/authentication/ProtectedRoute';
 
 const queryClient = new QueryClient({
   defaultOptions: {

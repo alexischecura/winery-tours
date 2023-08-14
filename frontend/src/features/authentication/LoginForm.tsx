@@ -1,11 +1,11 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
-import styles from "./Form.module.css";
-import FormRow from "../../ui/FormRow";
-import Button from "../../ui/Button";
-import { useLogin } from "./useLogin";
-import SpinnerMini from "../../ui/SpinnerMini";
-import { LoginUserType, loginUserSchema } from "../../types/userTypes";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import styles from './Form.module.css';
+import FormRow from '../../ui/FormRow';
+import Button from '../../ui/Button';
+import { useLogin } from './useLogin';
+import SpinnerMini from '../../ui/SpinnerMini';
+import { LoginUserType, loginUserSchema } from '../../types/userTypes';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 function LoginForm() {
   const { loginApi, isLoading } = useLogin();
@@ -36,7 +36,7 @@ function LoginForm() {
           id="email"
           autoComplete="username"
           disabled={isLoading}
-          {...register("email")}
+          {...register('email')}
         />
       </FormRow>
       <FormRow
@@ -50,11 +50,11 @@ function LoginForm() {
           id="password"
           autoComplete="username"
           disabled={isLoading}
-          {...register("password")}
+          {...register('password')}
         />
       </FormRow>
       <Button type="primary" disabled={isLoading}>
-        {isLoading ? <SpinnerMini color="white" /> : "Log In"}
+        {isLoading ? <SpinnerMini color="white" /> : 'Log In'}
       </Button>
     </form>
   );

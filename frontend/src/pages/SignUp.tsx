@@ -7,7 +7,7 @@ function SignUp() {
   return (
     <main className={styles.form}>
       <Logo />
-      <Heading type='h3'>Create a new account</Heading>
+      <Heading type="h3">Create a new account</Heading>
       <SignUpForm />
     </main>
   );

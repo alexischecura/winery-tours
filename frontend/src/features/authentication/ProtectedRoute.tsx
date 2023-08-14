@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useUser } from "./useUser";
-import Spinner from "../../ui/Spinner";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from './useUser';
+import Spinner from '../../ui/Spinner';
 
 interface Props {
   children: React.ReactNode;

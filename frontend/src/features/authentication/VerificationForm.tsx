@@ -21,7 +21,7 @@ function VerificationForm() {
 
   useEffect(() => {
     if (verificationCode) {
-      reset({verificationCode})
+      reset({ verificationCode });
       verifyApi(verificationCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,21 +36,21 @@ function VerificationForm() {
       onSubmit={(e) => void handleSubmit(onSubmit)(e)}
     >
       <FormRow
-        label='Verification Code'
-        childrenId='verificationCode'
+        label="Verification Code"
+        childrenId="verificationCode"
         error={errors?.verificationCode?.message}
       >
         <input
           className={styles.input}
-          type='text'
-          id='verificationCode'
+          type="text"
+          id="verificationCode"
           disabled={isLoading}
           {...register('verificationCode')}
         />
       </FormRow>
 
-      <Button type='primary' disabled={isLoading}>
-        {isLoading ? <SpinnerMini color='white' /> : 'Verify User'}
+      <Button type="primary" disabled={isLoading}>
+        {isLoading ? <SpinnerMini color="white" /> : 'Verify User'}
       </Button>
     </form>
   );

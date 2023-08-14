@@ -7,7 +7,7 @@ function Verification() {
   return (
     <main className={styles.form}>
       <Logo />
-      <Heading type='h3'>Verify your account</Heading>
+      <Heading type="h3">Verify your account</Heading>
       <VerificationForm />
     </main>
   );

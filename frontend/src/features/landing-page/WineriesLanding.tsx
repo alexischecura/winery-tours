@@ -18,17 +18,17 @@ type Props = {
 };
 
 function WineriesLanding({ wineImages }: Props) {
-  const { status, error, data }: UseQueryResult<WineriesResponse, Error> =
-    useQuery<WineriesResponse, Error>({
-      queryKey: ['winery'],
-      queryFn: getWineries,
-    });
-
-  console.log(status, error, data);
+  const { data }: UseQueryResult<WineriesResponse, Error> = useQuery<
+    WineriesResponse,
+    Error
+  >({
+    queryKey: ['winery'],
+    queryFn: getWineries,
+  });
 
   return (
     <>
-      <SubHeading title='wineries' />
+      <SubHeading title="wineries" />
 
       <div className={styles.wineries}>
         {data?.data.map((winery) => (

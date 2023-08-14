@@ -1,12 +1,12 @@
-import { GenericResponse, ErrorResponse } from "../types/types";
+import { GenericResponse, ErrorResponse } from '../types/types';
 import {
   LoginUserResponse,
   SignUpUserResponse,
   SingUpUserType,
   UserResponse,
-} from "../types/userTypes";
+} from '../types/userTypes';
 
-const API_AUTH_URL = "http://127.0.0.1:3000/api/v1/users";
+const API_AUTH_URL = 'http://127.0.0.1:3000/api/v1/users';
 
 enum AuthUrls {
   SIGNUP = `${API_AUTH_URL}/signup`,
@@ -17,10 +17,10 @@ enum AuthUrls {
 }
 
 enum Methods {
-  GET = "GET",
-  POST = "POST",
-  PATCH = "PATCH",
-  DELETE = "DELETE",
+  GET = 'GET',
+  POST = 'POST',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE',
 }
 
 async function fetchApi<T>(
@@ -30,17 +30,15 @@ async function fetchApi<T>(
 ): Promise<T> {
   const res = await fetch(url, {
     method,
-    credentials: "same-origin",
+    credentials: 'same-origin',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
   });
 
   if (res.ok) {
-    console.log(res.headers.get("Set-Cookie"));
-    console.log(document.cookie);
     return (await res.json()) as T;
   } else {
     const data = (await res.json()) as ErrorResponse;

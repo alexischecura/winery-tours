@@ -8,7 +8,7 @@ function HeroLanding() {
     <section className={styles.heroSection}>
       <div className={`${styles.hero}`}>
         <div className={styles.heroTextBox}>
-          <h1 className='heading-primary'>
+          <h1 className="heading-primary">
             Explore Mendoza's Spectacular Wineries and Vineyards
           </h1>
           <p className={styles.heroDescription}>
@@ -17,26 +17,26 @@ function HeroLanding() {
             landscapes. Unforgettable tours await.
           </p>
           <ul className={styles.ctaButtons}>
-            <li className='btn cta-btn'>
-              <Link className={styles.heroBtn} to='/signup'>
+            <li className="btn cta-btn">
+              <Link className={styles.heroBtn} to="/signup">
                 Sign Up
               </Link>
             </li>
             <li>
-              <a className={styles.explore} href=''>
+              <a className={styles.explore} href="">
                 <span className={styles.text}>Explore all tours</span>
                 <svg
-                  viewBox='0 0 46 16'
-                  height='10'
-                  width='30'
-                  xmlns='http://www.w3.org/2000/svg'
-                  id='arrow-horizontal'
+                  viewBox="0 0 46 16"
+                  height="10"
+                  width="30"
+                  xmlns="http://www.w3.org/2000/svg"
+                  id="arrow-horizontal"
                 >
                   <path
-                    transform='translate(30)'
-                    d='M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z'
-                    data-name='Path 10'
-                    id='Path_10'
+                    transform="translate(30)"
+                    d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                    data-name="Path 10"
+                    id="Path_10"
                   ></path>
                 </svg>
               </a>
@@ -46,13 +46,13 @@ function HeroLanding() {
         <div className={styles.heroImages}>
           <img
             src={heroImg1}
-            alt='brown wooden fence near snow-covered mountain during the daytime'
+            alt="brown wooden fence near snow-covered mountain during the daytime"
             className={styles.heroImg1}
           />
 
           <img
             src={heroImg2}
-            alt='brown wooden wine racks'
+            alt="brown wooden wine racks"
             className={styles.heroImg2}
           />
         </div>
