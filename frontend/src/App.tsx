@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Verification from './pages/Verification';
 import ProtectedRoute from './features/authentication/ProtectedRoute';
+import AuthProvider from './contexts/AuthContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,24 +23,29 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route
-            path="dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardAdmin />
-              </ProtectedRoute>
-            }
-          ></Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/verification" element={<Verification />}>
-            <Route path=":verificationCode" element={<Verification />}></Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardAdmin />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/verification" element={<Verification />}>
+              <Route
+                path=":verificationCode"
+                element={<Verification />}
+              ></Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
       <Toaster />
     </QueryClientProvider>
   );
