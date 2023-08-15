@@ -26,15 +26,19 @@ enum Methods {
 async function fetchApi<T>(
   url: string,
   method: Methods,
-  body?: object
+  body?: object,
+  token?: string | null
 ): Promise<T> {
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    Authorization: token ? `Bearer ${token}` : '',
+  };
+
   const res = await fetch(url, {
     method,
     credentials: 'include',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify(body),
   });
 
@@ -68,11 +72,21 @@ export const verifyUser = async (verificationCode: string) => {
   );
 };
 
-export const logoutUser = async () => {
-  return await fetchApi<GenericResponse>(AuthUrls.LOGOUT, Methods.POST);
+export const logoutUser = async (token: string) => {
+  return await fetchApi<GenericResponse>(
+    AuthUrls.LOGOUT,
+    Methods.POST,
+    undefined,
+    token
+  );
 };
 
-export const getCurrentUser = async () => {
-  const res = await fetchApi<UserResponse>(AuthUrls.CURRENT_USER, Methods.GET);
+export const getCurrentUser = async (token: string | null) => {
+  const res = await fetchApi<UserResponse>(
+    AuthUrls.CURRENT_USER,
+    Methods.GET,
+    undefined,
+    token
+  );
   return res;
 };
