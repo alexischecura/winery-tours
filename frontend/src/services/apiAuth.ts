@@ -6,7 +6,7 @@ import {
   UserResponse,
 } from '../types/userTypes';
 
-const API_AUTH_URL = 'http://127.0.0.1:3000/api/v1/users';
+const API_AUTH_URL = 'http://localhost:3000/api/v1/users';
 
 enum AuthUrls {
   SIGNUP = `${API_AUTH_URL}/signup`,
@@ -30,7 +30,7 @@ async function fetchApi<T>(
 ): Promise<T> {
   const res = await fetch(url, {
     method,
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ async function fetchApi<T>(
 }
 
 export const signUpUser = async (credentials: SingUpUserType) => {
-  return fetchApi<SignUpUserResponse>(
+  return await fetchApi<SignUpUserResponse>(
     AuthUrls.SIGNUP,
     Methods.POST,
     credentials
@@ -55,23 +55,24 @@ export const signUpUser = async (credentials: SingUpUserType) => {
 };
 
 export const loginUser = async (email: string, password: string) => {
-  return fetchApi<LoginUserResponse>(AuthUrls.LOGIN, Methods.POST, {
+  return await fetchApi<LoginUserResponse>(AuthUrls.LOGIN, Methods.POST, {
     email,
     password,
   });
 };
 
 export const verifyUser = async (verificationCode: string) => {
-  return fetchApi<GenericResponse>(
+  return await fetchApi<GenericResponse>(
     `${AuthUrls.VERIFICATION}/${verificationCode}`,
     Methods.GET
   );
 };
 
 export const logoutUser = async () => {
-  return fetchApi<GenericResponse>(AuthUrls.LOGOUT, Methods.POST);
+  return await fetchApi<GenericResponse>(AuthUrls.LOGOUT, Methods.POST);
 };
 
 export const getCurrentUser = async () => {
-  return fetchApi<UserResponse>(AuthUrls.CURRENT_USER, Methods.GET);
+  const res = await fetchApi<UserResponse>(AuthUrls.CURRENT_USER, Methods.GET);
+  return res;
 };
