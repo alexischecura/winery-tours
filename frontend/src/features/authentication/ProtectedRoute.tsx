@@ -1,24 +1,25 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from './useUser';
 import Spinner from '../../ui/Spinner';
+import { AuthContext } from '../../contexts/AuthContext';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const ProtectedRoute = ({ children }: Props) => {
-  return children;
-  //   const navigate = useNavigate();
-  //   const { isLoading, data } = useUser();
+  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
 
-  //   useEffect(() => {
-  //     if (!data && !isLoading) navigate("/login");
-  //   }, [data, isLoading, navigate]);
-  //   console.log(data);
+  useEffect(() => {
+    if (!isLoggedIn) navigate('/login');
+  }, [isLoggedIn, navigate]);
 
-  //   if (isLoading) return <Spinner />;
-  //   if (data) return children;
+  const { isLoading, data } = useUser();
+
+  if (isLoading) return <Spinner />;
+  if (data) return children;
 };
 
 export default ProtectedRoute;
