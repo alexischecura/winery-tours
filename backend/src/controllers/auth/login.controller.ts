@@ -20,22 +20,22 @@ const cookiesOptions: CookieOptions = {
 
 if (envVars.NODE_ENV === 'production') cookiesOptions.secure = true;
 
-const accessTokenCookieOptions: CookieOptions = {
-  ...cookiesOptions,
-  expires: new Date(Date.now() + envVars.ACCESS_TOKEN_EXPIRES * 60 * 1000),
-};
-
-const refreshTokenCookieOptions: CookieOptions = {
-  ...cookiesOptions,
-  expires: new Date(Date.now() + envVars.REFRESH_TOKEN_EXPIRES * 60 * 1000),
-};
-
 export const loginUserHandler = async (
   req: Request<{}, {}, LoginUser>,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const accessTokenCookieOptions: CookieOptions = {
+      ...cookiesOptions,
+      expires: new Date(Date.now() + envVars.ACCESS_TOKEN_EXPIRES * 60 * 1000),
+    };
+
+    const refreshTokenCookieOptions: CookieOptions = {
+      ...cookiesOptions,
+      expires: new Date(Date.now() + envVars.REFRESH_TOKEN_EXPIRES * 60 * 1000),
+    };
+
     // Body types verification done in routes
     const { email, password } = req.body;
 
@@ -58,12 +58,8 @@ export const loginUserHandler = async (
 
     const { access_token, refresh_token } = await signTokens(user);
 
-    res.cookie('access_token', access_token, accessTokenCookieOptions);
     res.cookie('refresh_token', refresh_token, refreshTokenCookieOptions);
-    res.cookie('logged_in', true, {
-      ...accessTokenCookieOptions,
-      httpOnly: false,
-    });
+
     res.status(200).json({
       status: 'success',
       access_token,
@@ -83,6 +79,11 @@ export const refreshAccessTokenHandler = async (
   const errorMessage = 'Failed to refresh access token, please login again.';
 
   try {
+    const accessTokenCookieOptions: CookieOptions = {
+      ...cookiesOptions,
+      expires: new Date(Date.now() + envVars.ACCESS_TOKEN_EXPIRES * 60 * 1000),
+    };
+
     const refresh_token = req.cookies.refresh_token;
     if (!refresh_token) return next(new AuthorizationError(errorMessage));
 
@@ -99,12 +100,6 @@ export const refreshAccessTokenHandler = async (
 
     const access_token = signJwt({ sub: user.id }, 'ACCESS_TOKEN_PRIVATE_KEY', {
       expiresIn: `${envVars.ACCESS_TOKEN_EXPIRES}m`,
-    });
-
-    res.cookie('access_token', access_token, accessTokenCookieOptions);
-    res.cookie('logged_in', true, {
-      ...accessTokenCookieOptions,
-      httpOnly: false,
     });
 
     res.status(200).json({
