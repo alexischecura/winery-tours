@@ -1,8 +1,14 @@
+import { useContext } from 'react';
 import styles from './HeaderLanding.module.css';
-import Logo from '../../ui/Logo';
 import { Link } from 'react-router-dom';
+import Logo from '../../ui/Logo';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useUser } from '../authentication/useUser';
 
 function HeaderLanding() {
+  const { isLoggedIn } = useContext(AuthContext);
+  const { data } = useUser();
+
   return (
     <header className={styles.header}>
       <a href="#" className={styles.mainNavLogo}>
@@ -32,18 +38,22 @@ function HeaderLanding() {
           </li>
         </ul>
       </nav>
-      <ul className={styles.btnList}>
-        <li className={`${styles.btnHeader} btn`}>
-          <Link to="/login" className={styles.btn}>
-            Login
-          </Link>
-        </li>
-        <li className={`${styles.btnHeader} btn cta-btn`}>
-          <Link to="/signup" className={styles.btn}>
-            Sign Up
-          </Link>
-        </li>
-      </ul>
+      {isLoggedIn ? (
+        <span>{data?.data.user.fullName}</span>
+      ) : (
+        <ul className={styles.btnList}>
+          <li className={`${styles.btnHeader} btn`}>
+            <Link to="/login" className={styles.btn}>
+              Login
+            </Link>
+          </li>
+          <li className={`${styles.btnHeader} btn cta-btn`}>
+            <Link to="/signup" className={styles.btn}>
+              Sign Up
+            </Link>
+          </li>
+        </ul>
+      )}
     </header>
   );
 }

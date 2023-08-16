@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }: Props) => {
   const { isLoading, data } = useUser();
 
   if (isLoading) return <Spinner />;
-  if (data) return children;
+  if (data && isLoggedIn) return children;
 };
 
 export default ProtectedRoute;

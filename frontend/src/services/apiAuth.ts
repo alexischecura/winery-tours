@@ -14,6 +14,7 @@ enum AuthUrls {
   LOGOUT = `${API_AUTH_URL}/logout`,
   VERIFICATION = `${API_AUTH_URL}/verification`,
   CURRENT_USER = `${API_AUTH_URL}/me`,
+  REFRESH = `${API_AUTH_URL}/refresh`,
 }
 
 enum Methods {
@@ -70,6 +71,10 @@ export const verifyUser = async (verificationCode: string) => {
     `${AuthUrls.VERIFICATION}/${verificationCode}`,
     Methods.GET
   );
+};
+
+export const refreshToken = async () => {
+  return await fetchApi<LoginUserResponse>(AuthUrls.REFRESH, Methods.POST);
 };
 
 export const logoutUser = async (token: string) => {
