@@ -2,11 +2,41 @@
 
 Welcome to the Wine Cellar Tours app repository! This application is designed to provide users with an immersive experience of exploring and discovering wine cellars in Mendoza, Argentina
 
-### User Story - Customer
+## How to run this applicatión
+1. Clone the repository
 
-[⌛] - As a customer, I want to access a landing page that provides information about the service, wine tours, reviews, available tours with their prices, a form for submitting questions, and contact information.
+2. Execute
+```
+pnpm install
+```
+3. Have docker desktop
 
-[⌛] - As a customer, I want to browse through upcoming tours and view their location, price, and rating.
+4. Start the databases
+```
+docker compose up -d
+```
+5. Clone the files __.env.example__ and rename the copy to __.env__
+
+6. Fill the enviroments variables defined in the ```.env```
+
+7. Execute the backend
+
+```
+cd backend
+pnpm start
+```
+
+8. Execute the frontend
+
+```
+pnpm run start
+```
+
+## User Story - Customer
+
+[✅] - As a customer, I want to access a landing page that provides information about the service, wine tours, reviews, available tours with their prices, a form for submitting questions, and contact information.
+
+[✅] - As a customer, I want to browse through upcoming tours and view their location, price, and rating.
 
 [⌛] - As a customer, I want to view detailed information about a specific tour, including its price, rating, reviews, wine cellars included, and specific activities offered at each wine cellar.
 
@@ -42,5 +72,5 @@ Welcome to the Wine Cellar Tours app repository! This application is designed to
 
 ## Technologies Used
 
-- Frontend: React, TypeScript, React Query, React Router, Styled Components.
+- Frontend: React, TypeScript, React Query, React Router, CSS modules.
 - Backend: Node.js, Express, Zod, Prisma, PostgreSQL, Redis.
