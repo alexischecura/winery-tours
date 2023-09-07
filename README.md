@@ -9,15 +9,16 @@ Welcome to the Wine Cellar Tours app repository! This application is designed to
 ```
 pnpm install
 ```
-3. Have docker desktop
+3. Clone the files __.env.example__ and rename the copy to __.env__
 
-4. Start the databases
+4. Fill the enviroments variables defined in the ```.env```
+
+5. Have docker desktop installed
+
+6. Start the databases
 ```
 docker compose up -d
 ```
-5. Clone the files __.env.example__ and rename the copy to __.env__
-
-6. Fill the enviroments variables defined in the ```.env```
 
 7. Execute the backend
 
